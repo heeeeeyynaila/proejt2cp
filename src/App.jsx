@@ -20,7 +20,7 @@ import {
   Patients as DoctorPatients, Analytics as DoctorAnalytics, 
   Settings as DoctorSettings, Notifications as DoctorNotifications, 
   Schedule as DoctorSchedule, NewAppointment as DoctorNewAppointment, 
-  AddPatient as DoctorAddPatient 
+  AddPatient as DoctorAddPatient, SwitchShift as DoctorSwitchShift
 } from '../doctor/app/pages';
 
 // Patient portal
@@ -93,6 +93,7 @@ const router = createBrowserRouter([
       { path: 'schedule',         Component: DoctorSchedule        },
       { path: 'new-appointment',  Component: DoctorNewAppointment  },
       { path: 'patients/new',     Component: DoctorAddPatient      },
+      { path: 'switch-shift',     Component: DoctorSwitchShift     },
     ],
   },
 
@@ -111,6 +112,26 @@ const router = createBrowserRouter([
       { path: 'settings',         Component: wrapPatient(PatientSettings)       },
       { path: 'book-appointment', Component: wrapPatient(PatientBookAppointment) },
     ],
+  },
+
+  // ── Global Error / 404 Page ──
+  {
+    path: '*',
+    Component: () => (
+      <div className="min-h-screen bg-[#f8fafc] flex flex-col items-center justify-center p-8 text-center relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#006591]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#0ea5e9]/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4" />
+        
+        <div className="relative z-10 bg-white/70 backdrop-blur-xl border border-[#e2e8f0] rounded-3xl p-16 max-w-lg shadow-xl">
+          <div className="text-[#0ea5e9] font-black text-9xl mb-4 tracking-tighter drop-shadow-md">404</div>
+          <h1 className="text-3xl font-bold text-[#0f172a] mb-4">Page Not Found</h1>
+          <p className="text-[#64748b] mb-8 text-lg">We couldn't find the page you were looking for. It might have been moved or doesn't exist.</p>
+          <a href="/" className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#006591] to-[#0ea5e9] text-white rounded-xl font-bold hover:shadow-lg transition-all">
+            Return to Dashboard
+          </a>
+        </div>
+      </div>
+    ),
   },
 ]);
 
