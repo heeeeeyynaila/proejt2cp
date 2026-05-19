@@ -1,47 +1,37 @@
 import { createBrowserRouter, RouterProvider } from 'react-router';
 
-// Auth pages
-import Landing from './pages/Landing';
-import PatientLogin from './pages/login/PatientLogin';
-import DoctorLogin from './pages/login/DoctorLogin';
-import AdminLogin from './pages/login/AdminLogin';
+// Auth & Landing pages
+import { Landing, PatientLogin, DoctorLogin, AdminLogin } from './pages';
 
 // Admin portal
 import AdminLayout from '../admin/app/components/Layout';
-import AdminDashboard from '../admin/imports/ArcioDashboardRedesigned/ArcioDashboardRedesigned';
-import AdminDoctors from '../admin/imports/ArcioDoctorsRedesigned/ArcioDoctorsRedesigned';
-import AdminPatients from '../admin/imports/ArcioPatientsRedesigned/ArcioPatientsRedesigned';
-import AdminAppointments from '../admin/imports/ArcioAppointmentsRedesigned/ArcioAppointmentsRedesigned';
-import AdminAnnouncements from '../admin/imports/ArcioAnnouncementsRedesigned/ArcioAnnouncementsRedesigned';
-import AdminSettings from '../admin/imports/ArcioSettingsRedesigned/ArcioSettingsRedesigned';
-import AdminSchedule from '../admin/imports/Schedule/Schedule';
-import AdminServices from '../admin/imports/Services/Services';
-import AddDepartment from '../admin/app/pages/AddDepartment';
-import AddDoctor from '../admin/app/pages/AddDoctor';
-import AddAnnouncement from '../admin/app/pages/AddAnnouncement';
-import AddService from '../admin/app/pages/AddService';
+import { 
+  AdminDashboard, AdminDoctors, AdminPatients, AdminAppointments, 
+  AdminAnnouncements, AdminSettings, AdminSchedule, AdminServices 
+} from '../admin/imports';
+import { 
+  AddDepartment, AddDoctor, AddAnnouncement, AddService 
+} from '../admin/app/pages';
 
 // Doctor portal
 import DoctorLayout from '../doctor/app/components/Layout';
-import DoctorDashboard from '../doctor/app/pages/Dashboard';
-import DoctorDepartments from '../doctor/app/pages/Departments';
-import DoctorDoctors from '../doctor/app/pages/Doctors';
-import DoctorAppointments from '../doctor/app/pages/Appointments';
-import DoctorPatients from '../doctor/app/pages/Patients';
-import DoctorAnalytics from '../doctor/app/pages/Analytics';
-import DoctorSettings from '../doctor/app/pages/Settings';
-import DoctorNotifications from '../doctor/app/pages/Notifications';
+import { 
+  Dashboard as DoctorDashboard, Appointments as DoctorAppointments, 
+  Patients as DoctorPatients, Analytics as DoctorAnalytics, 
+  Settings as DoctorSettings, Notifications as DoctorNotifications, 
+  Schedule as DoctorSchedule, NewAppointment as DoctorNewAppointment, 
+  AddPatient as DoctorAddPatient 
+} from '../doctor/app/pages';
 
 // Patient portal
 import PatientLayout from '../patient/app/components/Layout';
-import PatientDashboard from '../patient/app/pages/Dashboard';
-import PatientAppointments from '../patient/app/pages/Appointments';
-import PatientProfile from '../patient/app/pages/Profile';
-import PatientDocuments from '../patient/app/pages/Documents';
-import PatientVaccinations from '../patient/app/pages/Vaccinations';
-import PatientMedicalFile from '../patient/app/pages/MedicalFile';
-import PatientAnnouncements from '../patient/app/pages/Announcements';
-import PatientSettings from '../patient/app/pages/Settings';
+import { 
+  Dashboard as PatientDashboard, Appointments as PatientAppointments, 
+  Profile as PatientProfile, Documents as PatientDocuments, 
+  Vaccinations as PatientVaccinations, MedicalFile as PatientMedicalFile, 
+  Announcements as PatientAnnouncements, Settings as PatientSettings, 
+  BookAppointment as PatientBookAppointment 
+} from '../patient/app/pages';
 
 // ── Admin wrapper helpers ──
 const wrap = (Component) => () => (
@@ -94,14 +84,15 @@ const router = createBrowserRouter([
     path: '/doctor',
     Component: DoctorLayout,
     children: [
-      { index: true,          Component: DoctorDashboard      },
-      { path: 'departments',  Component: DoctorDepartments    },
-      { path: 'doctors',      Component: DoctorDoctors        },
-      { path: 'appointments', Component: DoctorAppointments   },
-      { path: 'patients',     Component: DoctorPatients       },
-      { path: 'analytics',    Component: DoctorAnalytics      },
-      { path: 'settings',     Component: DoctorSettings       },
-      { path: 'notifications',Component: DoctorNotifications  },
+      { index: true,              Component: DoctorDashboard       },
+      { path: 'appointments',     Component: DoctorAppointments    },
+      { path: 'patients',         Component: DoctorPatients        },
+      { path: 'analytics',        Component: DoctorAnalytics       },
+      { path: 'settings',         Component: DoctorSettings        },
+      { path: 'notifications',    Component: DoctorNotifications   },
+      { path: 'schedule',         Component: DoctorSchedule        },
+      { path: 'new-appointment',  Component: DoctorNewAppointment  },
+      { path: 'patients/new',     Component: DoctorAddPatient      },
     ],
   },
 
@@ -118,6 +109,7 @@ const router = createBrowserRouter([
       { path: 'medical-file',     Component: wrapPatient(PatientMedicalFile)    },
       { path: 'announcements',    Component: wrapPatient(PatientAnnouncements)  },
       { path: 'settings',         Component: wrapPatient(PatientSettings)       },
+      { path: 'book-appointment', Component: wrapPatient(PatientBookAppointment) },
     ],
   },
 ]);

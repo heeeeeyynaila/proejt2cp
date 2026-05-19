@@ -89,6 +89,119 @@
   }
 }
 
+/* ── Fix Figma-imported text containers ── */
+/* Figma exports use leading-[0] which collapses line-height until Tailwind
+   processes the child leading-* classes. This ensures no text ever has 0 line-height. */
+[data-name] p {
+  line-height: inherit;
+}
+
+/* Prevent fixed-width text from clipping in fluid layouts */
+[data-name] div[class*="leading-[0]"] {
+  line-height: normal !important;
+}
+
+/* ── Fix ALL Figma layout shifting issues ── */
+
+/* 1. Prevent horizontal overflow from absolute-positioned Figma elements */
+[data-name] {
+  max-width: 100%;
+}
+
+/* 2. Force all Figma root containers to be fluid */
+main > div > div[data-name] {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+/* 3. Fix fixed-width text containers that cause text clipping */
+[data-name] div[class*="w-["][class*="px]"] > p,
+[data-name] div[class*="w-["][class*="px]"] > span {
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* 4. Fix fixed-height grids that clip content */
+[data-name] div[class*="grid-rows-["] {
+  grid-template-rows: auto !important;
+}
+
+/* 5. Prevent sidebar/header duplication visible space */
+[data-name*="SideNavBar"],
+[data-name*="TopAppBar"],
+[data-name*="SideNavBar"]:not([class*="hidden"]) ~ [data-name*=":shadow"] {
+  display: none !important;
+}
+
+/* 6. Fix absolute-positioned containers breaking flow */
+main [data-name] > div[class*="absolute"][class*="inset-"] {
+  position: relative;
+}
+
+/* 7. Fix Figma search bar duplicates */
+main [data-name*="Search Bar"][class*="absolute"] {
+  display: none !important;
+}
+
+/* 8. Ensure all main content areas are properly spaced */
+main > div {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* 9. Fix grid overflow from fixed column widths */
+[data-name] div[class*="grid"][class*="w-["] {
+  width: 100% !important;
+}
+
+/* 10. Prevent text containers with fixed widths from clipping */
+[data-name] div[class*="font-"][class*="w-["] {
+  width: auto !important;
+  max-width: 100%;
+}
+
+/* 11. Fix fixed-height text containers that cause label/value overlap */
+[data-name] div[class*="h-["][class*="leading-[0]"],
+[data-name] div[class*="h-[16px]"][class*="leading-[0]"],
+[data-name] div[class*="h-[20px]"][class*="leading-[0]"],
+[data-name] div[class*="h-[24px]"][class*="leading-[0]"],
+[data-name] div[class*="h-[28px]"][class*="leading-[0]"],
+[data-name] div[class*="h-[32px]"][class*="leading-[0]"] {
+  height: auto !important;
+  min-height: auto;
+  line-height: normal !important;
+}
+
+/* 12. Fix ALL fixed-height text wrappers (Figma sets explicit heights that clip) */
+[data-name] div[class*="font-"][class*="h-["] {
+  height: auto !important;
+}
+
+/* 13. Fix fixed-width label containers (e.g., w-[82.14px], w-[130.53px]) */
+[data-name] div[class*="font-"][class*="w-["][class*="px]"] {
+  width: auto !important;
+  min-width: 0;
+}
+
+/* 14. Fix uppercase tracking labels that clip */
+[data-name] div[class*="uppercase"][class*="w-["] {
+  width: auto !important;
+}
+
+/* 15. Responsive overrides for patient portal Figma pages */
+@media (max-width: 1280px) {
+  [data-name] div[class*="gap-[32px]"][class*="grid-cols-"] {
+    gap: 16px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  [data-name] div[class*="grid-cols-[repeat("] {
+    grid-template-columns: 1fr !important;
+  }
+}
 /* ── Shared animation keyframes ── */
 @keyframes float {
   0%, 100% { transform: translateY(0px) rotate(0deg); }

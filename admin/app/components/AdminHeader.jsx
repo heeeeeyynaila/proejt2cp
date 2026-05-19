@@ -1,10 +1,21 @@
 import { Search, Bell, Settings, User, LogOut, FileText, CheckCircle, AlertTriangle } from 'lucide-react';
-import { useNavigate } from 'react-router';
-import { useState } from 'react';
+import { useNavigate, Link } from 'react-router';
+import { useState, useRef, useEffect } from 'react';
 
 export function AdminHeader() {
   const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
+  const notifRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (notifRef.current && !notifRef.current.contains(e.target)) {
+        setShowNotifications(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const notifications = [
     { id: 1, title: 'New Doctor Registered', time: '5m ago', type: 'success', icon: <CheckCircle className="h-4 w-4" /> },
@@ -31,11 +42,15 @@ export function AdminHeader() {
       {/* Actions Section */}
       <div className="flex items-center gap-2 sm:gap-4">
         <div className="hidden md:flex items-center gap-1">
-          <button className="p-2.5 text-[#64748b] hover:text-[#0ea5e9] hover:bg-[#f1f5f9] rounded-full transition-all" title="Settings">
+          <button 
+            onClick={() => navigate('/admin/settings')}
+            className="p-2.5 text-[#64748b] hover:text-[#0ea5e9] hover:bg-[#f1f5f9] rounded-full transition-all" 
+            title="Settings"
+          >
             <Settings className="h-5 w-5" />
           </button>
           
-          <div className="relative">
+          <div className="relative" ref={notifRef}>
             <button 
               onClick={() => setShowNotifications(!showNotifications)}
               className={`relative p-2.5 rounded-full transition-all ${showNotifications ? 'bg-[#0ea5e9]/10 text-[#0ea5e9]' : 'text-[#64748b] hover:text-[#0ea5e9] hover:bg-[#f1f5f9]'}`} 
@@ -67,9 +82,9 @@ export function AdminHeader() {
                   ))}
                 </div>
                 <div className="px-5 pt-3">
-                  <button className="w-full py-2.5 text-sm font-bold text-[#0ea5e9] hover:bg-[#0ea5e9]/5 rounded-xl transition-colors">
-                    View All Notifications
-                  </button>
+                  <Link to="/admin/announcements" onClick={() => setShowNotifications(false)} className="block w-full py-2.5 text-sm font-bold text-[#0ea5e9] hover:bg-[#0ea5e9]/5 rounded-xl transition-colors text-center">
+                    View All Announcements
+                  </Link>
                 </div>
               </div>
             )}

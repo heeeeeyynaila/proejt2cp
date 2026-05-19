@@ -488,7 +488,7 @@ function Container22() {
 
 function HeaderTopAppBarComponent() {
   return (
-    <div className="backdrop-blur-[12px] bg-[rgba(241,245,249,0.7)] content-stretch flex items-center justify-between px-[32px] py-[16px] relative shrink-0 w-[1024px] z-[2]" data-name="Header - TopAppBar Component">
+    <div className="backdrop-blur-[12px] bg-[rgba(241,245,249,0.7)] content-stretch flex items-center justify-between px-[32px] py-[16px] relative shrink-0 w-full z-[2] hidden" data-name="Header - TopAppBar Component">
       <Container22 />
     </div>
   );
@@ -506,8 +506,8 @@ function Heading1() {
 
 function Container27() {
   return (
-    <div className="content-stretch flex flex-col items-start max-w-[672px] relative shrink-0 w-[672px]" data-name="Container">
-      <div className="flex flex-col font-['Inter:Regular',sans-serif] font-normal h-[48px] justify-center leading-[0] not-italic relative shrink-0 text-[#64748b] text-[16px] w-[623.2px]">
+    <div className="content-stretch flex flex-col items-start max-w-[672px] relative shrink-0 w-full" data-name="Container">
+      <div className="flex flex-col font-['Inter:Regular',sans-serif] font-normal h-[48px] justify-center leading-[0] not-italic relative shrink-0 text-[#64748b] text-[16px] w-full">
         <p className="leading-[24px] mb-0">Manage your personal information, family dependents, and clinical communication</p>
         <p className="leading-[24px]">preferences in one centralized secure portal.</p>
       </div>
@@ -773,7 +773,7 @@ function Container39() {
 function Container33() {
   return (
     <div className="relative shrink-0 w-full" data-name="Container">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid gap-x-[32px] gap-y-[32px] grid grid-cols-[repeat(2,minmax(0,1fr))] grid-rows-[___69px_78px_78px] relative size-full">
+      <div className="bg-clip-padding border-0 border-[transparent] border-solid gap-x-[32px] gap-y-[32px] grid grid-cols-[repeat(2,minmax(0,1fr))] grid-rows-[auto_auto_auto] relative size-full">
         <Container34 />
         <Container35 />
         <Container36 />
@@ -788,7 +788,7 @@ function PrimaryGuardianDetailsGlassCard() {
   return (
     <div className="backdrop-blur-[8px] bg-[rgba(255,255,255,0.6)] col-[1/span_8] justify-self-stretch relative rounded-[24px] row-1 self-start shrink-0" data-name="Primary Guardian Details (Glass Card)">
       <div aria-hidden="true" className="absolute border border-[rgba(255,255,255,0.2)] border-solid inset-0 pointer-events-none rounded-[24px]" />
-      <div className="content-stretch flex flex-col gap-[32px] items-start pb-[134px] pt-[33px] px-[33px] relative size-full">
+      <div className="content-stretch flex flex-col gap-[32px] items-start pb-[40px] pt-[33px] px-[33px] relative size-full">
         <div className="absolute bg-[rgba(255,255,255,0)] inset-0 rounded-[24px] shadow-[0px_20px_25px_-5px_rgba(15,23,42,0.05),0px_8px_10px_-6px_rgba(15,23,42,0.05)]" data-name="Primary Guardian Details (Glass Card):shadow" />
         <Container28 />
         <Container33 />
@@ -1087,7 +1087,7 @@ function DependentListAsymmetricAside() {
 
 function BentoLayoutForProfileInformation() {
   return (
-    <div className="gap-x-[32px] gap-y-[32px] grid grid-cols-[repeat(12,minmax(0,1fr))] grid-rows-[_552px] relative shrink-0 w-full" data-name="Bento Layout for Profile Information">
+    <div className="gap-x-[32px] gap-y-[32px] grid grid-cols-[repeat(12,minmax(0,1fr))] grid-rows-[auto] relative shrink-0 w-full" data-name="Bento Layout for Profile Information">
       <PrimaryGuardianDetailsGlassCard />
       <DependentListAsymmetricAside />
     </div>
@@ -1387,7 +1387,7 @@ function AccountSecuritySettingsTonalLayer() {
 
 function PageContent() {
   return (
-    <div className="max-w-[1280px] relative shrink-0 w-full z-[1]" data-name="Page Content">
+    <div className="relative shrink-0 w-full z-[1]" data-name="Page Content">
       <div className="content-stretch flex flex-col gap-[48px] items-start max-w-[inherit] p-[32px] relative size-full">
         <SectionHeroHeader />
         <BentoLayoutForProfileInformation />
@@ -1409,7 +1409,7 @@ function MainContentCanvas() {
 
 function Container() {
   return (
-    <div className="content-stretch flex isolate items-start min-h-[1277px] relative shrink-0 w-full" data-name="Container">
+    <div className="content-stretch flex isolate items-start relative shrink-0 w-full" data-name="Container">
       <AsideSideNavBarComponent />
       <MainContentCanvas />
     </div>

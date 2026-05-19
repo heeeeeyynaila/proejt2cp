@@ -1,5 +1,5 @@
 import { NavLink } from "react-router";
-import { LayoutDashboard, Calendar, User, FileText, Syringe, HeartPulse, Bell, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, Calendar, User, FileText, Syringe, HeartPulse, Bell, Settings, LogOut, Home } from "lucide-react";
 
 export function Sidebar({ collapsed }) {
   const navItems = [
@@ -81,12 +81,12 @@ export function Sidebar({ collapsed }) {
               to="/"
               className="flex items-center justify-center gap-2 w-full py-2 text-sm font-semibold text-[#dc2626] bg-[#fee2e2] rounded-xl hover:bg-[#fecaca] transition-colors"
             >
-              <LogOut className="size-4" /> Sign Out
+              <Home className="size-4" /> Back to Home
             </NavLink>
           </div>
         ) : (
           <NavLink to="/" className="flex items-center justify-center size-10 rounded-xl bg-[#fee2e2] text-[#dc2626] hover:bg-[#fecaca] transition-colors mx-auto">
-            <LogOut className="size-5" />
+            <Home className="size-5" />
           </NavLink>
         )}
       </div>

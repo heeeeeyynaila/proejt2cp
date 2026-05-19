@@ -1,97 +1,119 @@
-import { Bell, Calendar, UserPlus, AlertCircle, CheckCircle, Clock, Trash2, Settings as SettingsIcon } from "lucide-react";
+import { Bell, AlertTriangle, FlaskConical, Monitor, ArrowLeft, Check, X, Filter } from 'lucide-react';
+import { useNavigate } from 'react-router';
+import { useState } from 'react';
 
 export default function Notifications() {
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('All');
+
+  const tabs = ['All', 'Patient Alerts', 'Labs', 'System'];
+
   const notifications = [
-    { type: "appointment", icon: Calendar, iconColor: "#0ea5e9", iconBg: "#e0f2fe", title: "New Appointment Scheduled", message: "Sarah Davis has booked an appointment with Dr. David Kim for tomorrow at 10:30 AM.", time: "5 minutes ago", unread: true },
-    { type: "registration", icon: UserPlus, iconColor: "#10b981", iconBg: "#ecfdf5", title: "New Patient Registration", message: "James Wilson has completed the registration process and assigned to Dr. Samantha Lee.", time: "15 minutes ago", unread: true },
-    { type: "alert", icon: AlertCircle, iconColor: "#f59e0b", iconBg: "#fef3c7", title: "System Alert", message: "High patient volume detected in Emergency Department. Consider allocating additional resources.", time: "1 hour ago", unread: true },
-    { type: "success", icon: CheckCircle, iconColor: "#059669", iconBg: "#ecfdf5", title: "Lab Results Ready", message: "Laboratory results for Patient ID P-2024-147 are now available for review.", time: "2 hours ago", unread: false },
-    { type: "reminder", icon: Clock, iconColor: "#8b5cf6", iconBg: "#ede9fe", title: "Appointment Reminder", message: "Dr. Marcus Chen has 3 appointments scheduled for this afternoon starting at 2:00 PM.", time: "3 hours ago", unread: false },
-    { type: "appointment", icon: Calendar, iconColor: "#0ea5e9", iconBg: "#e0f2fe", title: "Appointment Rescheduled", message: "Lisa Martinez rescheduled her appointment from today to next Monday at 11:00 AM.", time: "4 hours ago", unread: false },
-    { type: "success", icon: CheckCircle, iconColor: "#059669", iconBg: "#ecfdf5", title: "Payment Received", message: "Payment confirmation received for Patient ID P-2024-089. Amount: $450.00", time: "Yesterday", unread: false },
-    { type: "alert", icon: AlertCircle, iconColor: "#ef4444", iconBg: "#fee2e2", title: "Medication Stock Alert", message: "Critical: Amoxicillin stock levels below threshold. Reorder required immediately.", time: "Yesterday", unread: false },
+    { id: 1, title: 'SpO2 Drop — Leo Harris', desc: 'Room 402 • SpO2 dropped to 89%. Immediate attention required.', time: '2 min ago', type: 'Patient Alerts', priority: 'critical', read: false },
+    { id: 2, title: 'Lab Results Ready — Sarah Jenkins', desc: 'Complete Blood Count results available for review.', time: '15 min ago', type: 'Labs', priority: 'normal', read: false },
+    { id: 3, title: 'New Patient Registration', desc: 'Alice Turner (P-2024-301) pending intake review.', time: '30 min ago', type: 'System', priority: 'normal', read: false },
+    { id: 4, title: 'Heart Rate Elevated — Marcus Lee', desc: 'Room 501 • HR at 104 bpm. Monitor closely.', time: '45 min ago', type: 'Patient Alerts', priority: 'warning', read: true },
+    { id: 5, title: 'Imaging Results — Robert Chen', desc: 'CT scan results uploaded. Pulmonary assessment pending.', time: '1 hr ago', type: 'Labs', priority: 'normal', read: true },
+    { id: 6, title: 'Shift Change Approved', desc: 'Your swap request for May 20 has been approved.', time: '2 hr ago', type: 'System', priority: 'normal', read: true },
+    { id: 7, title: 'Medication Alert — Emily Watson', desc: 'Scheduled medication due in 30 minutes.', time: '3 hr ago', type: 'Patient Alerts', priority: 'warning', read: true },
+    { id: 8, title: 'System Maintenance', desc: 'Scheduled downtime tonight 2:00 AM – 4:00 AM.', time: '5 hr ago', type: 'System', priority: 'normal', read: true },
+  ];
+
+  const filtered = activeTab === 'All' ? notifications : notifications.filter(n => n.type === activeTab);
+
+  const priorityStyle = (p) => {
+    if (p === 'critical') return 'border-l-red-500 bg-red-50/50';
+    if (p === 'warning') return 'border-l-amber-500 bg-amber-50/30';
+    return 'border-l-transparent';
+  };
+
+  const alertSummary = [
+    { label: 'Critical', count: notifications.filter(n => n.priority === 'critical').length, color: 'bg-red-500' },
+    { label: 'Warnings', count: notifications.filter(n => n.priority === 'warning').length, color: 'bg-amber-500' },
+    { label: 'Unread', count: notifications.filter(n => !n.read).length, color: 'bg-[#0ea5e9]' },
+    { label: 'Total', count: notifications.length, color: 'bg-[#64748b]' },
   ];
 
   return (
-    <div className="p-8">
-      <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="font-bold text-[30px] text-[#171c1f] tracking-[-0.75px] leading-[36px] mb-1">Notifications</h1>
-          <p className="font-medium text-[16px] text-[#40484e] leading-[24px]">Stay updated with important alerts and messages.</p>
+    <div className="p-8 space-y-6">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <button onClick={() => navigate('/doctor')} className="p-2 hover:bg-[#f1f5f9] rounded-xl transition-colors"><ArrowLeft className="size-5 text-[#64748b]" /></button>
+          <div>
+            <h1 className="text-2xl font-extrabold text-[#171c1f] tracking-tight">Clinical Notifications</h1>
+            <p className="text-sm text-[#64748b]">Priority messaging center</p>
+          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 bg-white border border-[#e2e8f0] text-[#64748b] px-4 py-3 rounded-xl font-semibold hover:bg-[#f8fafc] transition-all">
-            <SettingsIcon className="size-5" /> Preferences
-          </button>
-          <button className="flex items-center gap-2 bg-gradient-to-r from-[#006591] to-[#0ea5e9] text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
-            <CheckCircle className="size-5" /> Mark All as Read
-          </button>
-        </div>
+        <button className="px-4 py-2 text-sm font-semibold text-[#0ea5e9] hover:bg-[#0ea5e9]/5 rounded-xl transition-colors">Mark All as Read</button>
       </div>
 
-      <div className="grid grid-cols-4 gap-6 mb-8">
-        <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="size-10 bg-[#e0f2fe] rounded-xl flex items-center justify-center"><Bell className="size-5 text-[#0369a1]" /></div>
-            <div className="font-semibold text-sm text-[#64748b] uppercase tracking-wide">Total</div>
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Main Feed */}
+        <div className="lg:col-span-3 space-y-4">
+          {/* Tabs */}
+          <div className="flex gap-1 bg-[#f1f5f9] p-1 rounded-xl w-fit">
+            {tabs.map(tab => (
+              <button key={tab} onClick={() => setActiveTab(tab)}
+                className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeTab === tab ? 'bg-white shadow-sm text-[#0369a1]' : 'text-[#64748b]'}`}>
+                {tab}
+              </button>
+            ))}
           </div>
-          <div className="font-bold text-3xl text-[#171c1f]">48</div>
-        </div>
-        <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="size-10 bg-[#fef3c7] rounded-xl flex items-center justify-center"><AlertCircle className="size-5 text-[#d97706]" /></div>
-            <div className="font-semibold text-sm text-[#64748b] uppercase tracking-wide">Unread</div>
-          </div>
-          <div className="font-bold text-3xl text-[#171c1f]">3</div>
-        </div>
-        <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="size-10 bg-[#fee2e2] rounded-xl flex items-center justify-center"><AlertCircle className="size-5 text-[#dc2626]" /></div>
-            <div className="font-semibold text-sm text-[#64748b] uppercase tracking-wide">Urgent</div>
-          </div>
-          <div className="font-bold text-3xl text-[#171c1f]">2</div>
-        </div>
-        <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="size-10 bg-[#ecfdf5] rounded-xl flex items-center justify-center"><CheckCircle className="size-5 text-[#059669]" /></div>
-            <div className="font-semibold text-sm text-[#64748b] uppercase tracking-wide">Today</div>
-          </div>
-          <div className="font-bold text-3xl text-[#171c1f]">12</div>
-        </div>
-      </div>
 
-      <div className="space-y-3">
-        {notifications.map((notification, idx) => (
-          <div key={idx} className={`bg-white border rounded-2xl p-6 hover:shadow-lg transition-all ${notification.unread ? "border-[#0ea5e9] bg-[#f0f9ff]" : "border-[#e2e8f0]"}`}>
-            <div className="flex items-start gap-6">
-              <div className="size-12 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: notification.iconBg }}>
-                <notification.icon className="size-6" style={{ color: notification.iconColor }} />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-bold text-base text-[#171c1f]">{notification.title}</h3>
-                  {notification.unread && <div className="size-2 bg-[#0ea5e9] rounded-full"></div>}
-                </div>
-                <p className="text-sm text-[#64748b] mb-3">{notification.message}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-[#94a3b8]">{notification.time}</span>
-                  <div className="flex items-center gap-2">
-                    {notification.unread && (
-                      <button className="px-3 py-1.5 bg-[#e0f2fe] text-[#0369a1] text-xs font-semibold rounded-lg hover:bg-[#bae6fd] transition-all">Mark as Read</button>
-                    )}
-                    <button className="p-1.5 hover:bg-[#fee2e2] rounded-lg transition-all"><Trash2 className="size-4 text-[#dc2626]" /></button>
+          {/* Notification Items */}
+          <div className="space-y-2">
+            {filtered.map(n => (
+              <div key={n.id} className={`bg-white rounded-xl border border-[#e2e8f0] border-l-4 p-4 hover:shadow-sm transition-all cursor-pointer ${priorityStyle(n.priority)} ${!n.read ? 'ring-1 ring-[#0ea5e9]/10' : ''}`}>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start gap-3 flex-1">
+                    <div className={`p-2 rounded-xl shrink-0 ${n.priority === 'critical' ? 'bg-red-100 text-red-600' : n.priority === 'warning' ? 'bg-amber-100 text-amber-600' : n.type === 'Labs' ? 'bg-emerald-100 text-emerald-600' : 'bg-[#e0f2fe] text-[#0369a1]'}`}>
+                      {n.type === 'Patient Alerts' ? <AlertTriangle className="size-4" /> : n.type === 'Labs' ? <FlaskConical className="size-4" /> : <Monitor className="size-4" />}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <p className={`text-sm font-bold ${!n.read ? 'text-[#171c1f]' : 'text-[#475569]'}`}>{n.title}</p>
+                        {!n.read && <span className="size-2 bg-[#0ea5e9] rounded-full shrink-0" />}
+                      </div>
+                      <p className="text-xs text-[#64748b] mt-0.5">{n.desc}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="text-[10px] text-[#94a3b8] whitespace-nowrap">{n.time}</span>
+                    <button className="p-1.5 hover:bg-[#f1f5f9] rounded-lg"><Check className="size-3.5 text-[#94a3b8]" /></button>
+                    <button className="p-1.5 hover:bg-red-50 rounded-lg"><X className="size-3.5 text-[#94a3b8]" /></button>
                   </div>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right Sidebar: Alert Summary */}
+        <div className="space-y-6">
+          <div className="bg-white rounded-2xl border border-[#e2e8f0] p-5">
+            <h3 className="font-bold text-[#171c1f] text-sm mb-4">Alert Summary</h3>
+            <div className="space-y-3">
+              {alertSummary.map((item, i) => (
+                <div key={i} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className={`size-2.5 rounded-full ${item.color}`} />
+                    <span className="text-sm text-[#475569]">{item.label}</span>
+                  </div>
+                  <span className="text-lg font-extrabold text-[#171c1f]">{item.count}</span>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
 
-      <div className="mt-8 text-center">
-        <button className="px-8 py-3 bg-white border border-[#e2e8f0] text-[#64748b] font-semibold rounded-xl hover:bg-[#f8fafc] transition-all">
-          Load More Notifications
-        </button>
+          <div className="bg-gradient-to-br from-[#006591] to-[#0ea5e9] rounded-2xl p-5 text-white">
+            <Bell className="size-6 text-white/60 mb-3" />
+            <h3 className="font-bold text-lg mb-1">Quick Actions</h3>
+            <p className="text-sm text-white/70 mb-4">Manage your notification preferences and alert thresholds.</p>
+            <button onClick={() => navigate('/doctor/settings')} className="w-full py-2.5 bg-white/20 backdrop-blur-sm rounded-xl text-sm font-bold hover:bg-white/30 transition-colors">
+              Notification Settings
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

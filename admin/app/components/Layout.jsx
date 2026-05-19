@@ -23,7 +23,7 @@ export default function Layout() {
       <div className={`flex-1 flex flex-col transition-all duration-300 ${collapsed ? 'ml-20' : 'ml-64'} min-h-screen`}>
         <ScrollToTop />
         <AdminHeader />
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden">
           <Outlet />
         </main>
       </div>

@@ -1515,7 +1515,7 @@ function Container70() {
 
 function HeaderTopAppBarExecutionFromJson() {
   return (
-    <div className="absolute backdrop-blur-[12px] bg-[rgba(241,245,249,0.7)] content-stretch flex items-center justify-between left-0 px-[32px] py-[16px] right-0 top-0" data-name="Header - TopAppBar (Execution from JSON)">
+    <div className="absolute backdrop-blur-[12px] bg-[rgba(241,245,249,0.7)] content-stretch flex items-center justify-between left-0 px-[32px] py-[16px] right-0 top-0 hidden" data-name="Header - TopAppBar (Execution from JSON)">
       <Container67 />
       <Container70 />
     </div>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Outlet } from 'react-router';
+import { Outlet, useNavigate } from 'react-router';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { Menu, ChevronLeft } from 'lucide-react';
@@ -7,6 +7,38 @@ import ScrollToTop from '../../../src/components/ScrollToTop';
 
 export default function Layout() {
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
+
+  const handleGlobalNavClick = (e) => {
+    // Intercept clicks on links or buttons in Figma imports
+    const target = e.target.closest('[data-name*="Link"], [data-name*="Button"], p');
+    if (!target) return;
+    
+    const text = target.textContent?.trim().toLowerCase();
+    
+    // Pages
+    if (text === 'dashboard') { e.preventDefault(); navigate('/patient'); }
+    else if (text === 'my profile') { e.preventDefault(); navigate('/patient/profile'); }
+    else if (text === 'documents') { e.preventDefault(); navigate('/patient/documents'); }
+    else if (text === 'vaccinations') { e.preventDefault(); navigate('/patient/vaccinations'); }
+    else if (text === 'medical file') { e.preventDefault(); navigate('/patient/medical-file'); }
+    else if (text === 'announcements') { e.preventDefault(); navigate('/patient/announcements'); }
+    else if (text === 'settings') { e.preventDefault(); navigate('/patient/settings'); }
+    
+    // Actions
+    else if (text === 'book new appointment' || text === 'new appointment') { 
+      e.preventDefault(); 
+      navigate('/patient/book-appointment'); 
+    }
+    else if (text === 'view all records' || text === 'view summary') {
+      e.preventDefault();
+      navigate('/patient/medical-file');
+    }
+    else if (text === 'export pdf') {
+      e.preventDefault();
+      window.print();
+    }
+  };
 
   return (
     <div className="flex h-screen bg-[#f8fafc] overflow-hidden">
@@ -23,7 +55,7 @@ export default function Layout() {
       <div className={`flex-1 flex flex-col transition-all duration-300 ${collapsed ? 'ml-20' : 'ml-64'}`}>
         <ScrollToTop />
         <Header />
-        <main className="flex-1 overflow-y-auto bg-[#f8fafc]">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden bg-[#f8fafc]" onClick={handleGlobalNavClick}>
           <Outlet />
         </main>
       </div>

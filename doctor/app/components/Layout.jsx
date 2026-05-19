@@ -1,13 +1,14 @@
-import { Outlet, Link, useLocation } from 'react-router';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router';
 import {
   LayoutDashboard, Building2, UserCog, Calendar, Users, BarChart3, Settings, Bell, Search, Menu, ChevronLeft,
-  CheckCircle, AlertCircle, Clock, UserPlus,
+  CheckCircle, AlertCircle, Clock, UserPlus, Home,
 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import ScrollToTop from '../../../src/components/ScrollToTop';
 
 export default function Layout() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const notifRef = useRef(null);
@@ -32,10 +33,9 @@ export default function Layout() {
 
   const navigation = [
     { name: 'Dashboard',     path: '/doctor',               icon: LayoutDashboard },
-    { name: 'Departments',   path: '/doctor/departments',   icon: Building2       },
-    { name: 'Doctors',       path: '/doctor/doctors',       icon: UserCog         },
     { name: 'Appointments',  path: '/doctor/appointments',  icon: Calendar        },
     { name: 'Patients',      path: '/doctor/patients',      icon: Users           },
+    { name: 'Schedule',      path: '/doctor/schedule',      icon: Building2       },
     { name: 'Analytics',     path: '/doctor/analytics',     icon: BarChart3       },
     { name: 'Settings',      path: '/doctor/settings',      icon: Settings        },
   ];
@@ -81,6 +81,30 @@ export default function Layout() {
               })}
             </ul>
           </nav>
+
+          {/* Bottom Section */}
+          <div className="p-4 border-t border-[#e2e8f0]">
+            <div className="flex flex-col gap-3">
+              <div className={`flex items-center gap-3 ${collapsed ? 'justify-center' : ''}`}>
+                <div className="size-9 rounded-full bg-gradient-to-br from-[#006591] to-[#0ea5e9] border-2 border-[#e0f2fe] flex items-center justify-center shrink-0">
+                  <span className="text-white font-bold text-xs">DA</span>
+                </div>
+                {!collapsed && (
+                  <div className="overflow-hidden">
+                    <div className="text-xs font-bold text-[#171c1f] truncate">Dr. Arcio</div>
+                    <div className="text-[10px] text-[#64748b] truncate">Senior Doctor</div>
+                  </div>
+                )}
+              </div>
+              <Link
+                to="/"
+                className={`flex items-center gap-3 py-2.5 px-3 rounded-xl transition-all text-[#dc2626] bg-[#fee2e2] hover:bg-[#fecaca] ${collapsed ? 'justify-center' : ''}`}
+              >
+                <Home className="size-5 shrink-0" />
+                {!collapsed && <span className="text-sm font-bold">Back to Home</span>}
+              </Link>
+            </div>
+          </div>
         </aside>
 
         {/* Toggle button - matches patient/admin style */}
@@ -107,6 +131,13 @@ export default function Layout() {
             </div>
           </div>
           <div className="flex items-center gap-4">
+            <button 
+              onClick={() => navigate('/doctor/settings')}
+              className="p-2.5 rounded-xl transition-all hover:bg-[#f1f5f9] text-[#64748b]"
+              title="Settings"
+            >
+              <Settings className="size-5" />
+            </button>
             {/* Notification Bell with Dropdown */}
             <div className="relative" ref={notifRef}>
               <button 
@@ -140,7 +171,7 @@ export default function Layout() {
                   </div>
                   <div className="px-5 pt-3">
                     <Link to="/doctor/notifications" onClick={() => setShowNotifications(false)} className="block w-full py-2.5 text-sm font-bold text-[#0ea5e9] hover:bg-[#0ea5e9]/5 rounded-xl transition-colors text-center">
-                      View All Notifications
+                      View All Announcements
                     </Link>
                   </div>
                 </div>
@@ -148,17 +179,17 @@ export default function Layout() {
             </div>
 
             <div className="h-10 w-px bg-[#e2e8f0]" />
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/doctor/settings')}>
               <div className="text-right">
                 <div className="font-semibold text-sm text-[#171c1f]">Dr. Arcio</div>
                 <div className="font-semibold text-xs text-[#64748b] uppercase">Senior Doctor</div>
               </div>
-              <div className="size-10 rounded-full bg-gradient-to-br from-[#006591] to-[#0ea5e9] border-2 border-[#e0f2fe]" />
+              <div className="size-10 rounded-full bg-gradient-to-br from-[#006591] to-[#0ea5e9] border-2 border-[#e0f2fe] hover:shadow-md transition-all" />
             </div>
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto">
+        <main className="flex-1 overflow-auto overflow-x-hidden">
           <ScrollToTop />
           <Outlet />
         </main>

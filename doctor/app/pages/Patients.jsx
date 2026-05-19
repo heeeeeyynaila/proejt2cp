@@ -1,119 +1,131 @@
-import { Search, Filter, Plus, Phone, Mail, FileText } from "lucide-react";
+import { Search, Filter, Users, AlertTriangle, Heart, Activity, ArrowLeft, ArrowRight, Shield, FileText } from 'lucide-react';
+import { useNavigate } from 'react-router';
+import { useState } from 'react';
 
 export default function Patients() {
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('All');
+
+  const tabs = ['All', 'Critical', 'In-Review', 'Stable'];
+  
   const patients = [
-    { name: "John Anderson", id: "P-2024-001", age: 45, gender: "Male", bloodType: "A+", phone: "+1 (555) 111-2222", email: "john.anderson@email.com", lastVisit: "Mar 20, 2026", nextAppointment: "Mar 28, 2026", doctor: "Dr. Sarah Jenkins", status: "Active", avatar: "JA", color: "#0ea5e9" },
-    { name: "Emily Watson", id: "P-2024-002", age: 32, gender: "Female", bloodType: "O-", phone: "+1 (555) 222-3333", email: "emily.watson@email.com", lastVisit: "Mar 22, 2026", nextAppointment: "Apr 05, 2026", doctor: "Dr. Marcus Chen", status: "Active", avatar: "EW", color: "#8b5cf6" },
-    { name: "Michael Brown", id: "P-2024-003", age: 8, gender: "Male", bloodType: "B+", phone: "+1 (555) 333-4444", email: "parent.brown@email.com", lastVisit: "Mar 15, 2026", nextAppointment: "Today", doctor: "Dr. Elena Rodriguez", status: "Active", avatar: "MB", color: "#f59e0b" },
-    { name: "Sarah Davis", id: "P-2024-004", age: 58, gender: "Female", bloodType: "AB+", phone: "+1 (555) 444-5555", email: "sarah.davis@email.com", lastVisit: "Mar 18, 2026", nextAppointment: "Tomorrow", doctor: "Dr. David Kim", status: "In Treatment", avatar: "SD", color: "#10b981" },
+    { name: 'Leo Harris', id: 'P-2024-201', age: 67, room: '402', status: 'Critical', spo2: 89, hr: 112, diagnosis: 'Cardiac Arrhythmia', lastUpdate: '5 min ago' },
+    { name: 'Sarah Jenkins', id: 'P-2024-147', age: 34, room: '215', status: 'Stable', spo2: 98, hr: 72, diagnosis: 'Post-op Recovery', lastUpdate: '1 hr ago' },
+    { name: 'Robert Chen', id: 'P-2024-189', age: 51, room: '310', status: 'In-Review', spo2: 94, hr: 88, diagnosis: 'Pulmonary Embolism', lastUpdate: '30 min ago' },
+    { name: 'Emily Watson', id: 'P-2024-256', age: 28, room: '108', status: 'Stable', spo2: 99, hr: 68, diagnosis: 'Routine Monitoring', lastUpdate: '2 hr ago' },
+    { name: 'Marcus Lee', id: 'P-2024-298', age: 73, room: '501', status: 'Critical', spo2: 91, hr: 104, diagnosis: 'Respiratory Distress', lastUpdate: '2 min ago' },
+    { name: 'Alice Turner', id: 'P-2024-301', age: 45, room: '220', status: 'In-Review', spo2: 96, hr: 80, diagnosis: 'Lab Results Pending', lastUpdate: '45 min ago' },
   ];
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "Active": return "bg-[#ecfdf5] text-[#059669]";
-      case "In Treatment": return "bg-[#dbeafe] text-[#0369a1]";
-      case "Discharged": return "bg-[#f1f5f9] text-[#64748b]";
-      default: return "bg-[#f1f5f9] text-[#64748b]";
-    }
+  const filtered = activeTab === 'All' ? patients : patients.filter(p => p.status === activeTab);
+
+  const statusColor = (s) => {
+    if (s === 'Critical') return 'bg-red-100 text-red-700 border-red-200';
+    if (s === 'In-Review') return 'bg-amber-100 text-amber-700 border-amber-200';
+    return 'bg-emerald-100 text-emerald-700 border-emerald-200';
   };
 
+  const spo2Color = (v) => v < 92 ? 'text-red-600' : v < 95 ? 'text-amber-600' : 'text-emerald-600';
+
   return (
-    <div className="p-8">
-      <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="font-bold text-[30px] text-[#171c1f] tracking-[-0.75px] leading-[36px] mb-1">Patients</h1>
-          <p className="font-medium text-[16px] text-[#40484e] leading-[24px]">Manage patient records and information.</p>
+    <div className="p-8 space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <button onClick={() => navigate('/doctor')} className="p-2 hover:bg-[#f1f5f9] rounded-xl transition-colors"><ArrowLeft className="size-5 text-[#64748b]" /></button>
+          <div>
+            <h1 className="text-2xl font-extrabold text-[#171c1f] tracking-tight">Patient Directory</h1>
+            <p className="text-sm text-[#64748b]">{patients.length} patients under care</p>
+          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 bg-white border border-[#e2e8f0] text-[#64748b] px-4 py-3 rounded-xl font-semibold hover:bg-[#f8fafc] transition-all">
-            <Filter className="size-5" /> Filter
-          </button>
-          <button className="flex items-center gap-2 bg-gradient-to-r from-[#006591] to-[#0ea5e9] text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
-            <Plus className="size-5" /> Register Patient
-          </button>
-        </div>
+        <button onClick={() => navigate('/doctor/patients/new')} className="px-5 py-2.5 bg-gradient-to-r from-[#006591] to-[#0ea5e9] text-white rounded-xl font-semibold text-sm shadow-lg shadow-cyan-500/20 hover:shadow-xl transition-all">
+          + Add Patient
+        </button>
       </div>
 
-      <div className="grid grid-cols-4 gap-6 mb-8">
-        <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6">
-          <div className="font-semibold text-sm text-[#64748b] uppercase tracking-wide mb-2">Total Patients</div>
-          <div className="font-bold text-4xl text-[#171c1f]">1,847</div>
-          <div className="text-xs text-[#059669] mt-2">+23 this week</div>
-        </div>
-        <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6">
-          <div className="font-semibold text-sm text-[#64748b] uppercase tracking-wide mb-2">New This Month</div>
-          <div className="font-bold text-4xl text-[#171c1f]">156</div>
-          <div className="text-xs text-[#059669] mt-2">+12% growth</div>
-        </div>
-        <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6">
-          <div className="font-semibold text-sm text-[#64748b] uppercase tracking-wide mb-2">In Treatment</div>
-          <div className="font-bold text-4xl text-[#171c1f]">342</div>
-          <div className="text-xs text-[#0369a1] mt-2">Active cases</div>
-        </div>
-        <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6">
-          <div className="font-semibold text-sm text-[#64748b] uppercase tracking-wide mb-2">Discharged</div>
-          <div className="font-bold text-4xl text-[#171c1f]">1,349</div>
-          <div className="text-xs text-[#64748b] mt-2">Total recovered</div>
-        </div>
-      </div>
-
-      <div className="mb-6">
-        <div className="relative max-w-md">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-[#94a3b8]" />
-          <input type="text" placeholder="Search patients by name, ID, or email..." className="w-full bg-white border border-[#e2e8f0] rounded-xl pl-12 pr-4 py-3 text-sm text-[#171c1f] placeholder:text-[#6b7280] focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]" />
-        </div>
-      </div>
-
-      <div className="space-y-4">
-        {patients.map((patient, idx) => (
-          <div key={idx} className="bg-white border border-[#e2e8f0] rounded-2xl p-6 hover:shadow-lg transition-all">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-6">
-                <div className="size-16 rounded-2xl flex items-center justify-center font-bold text-xl text-white" style={{ backgroundColor: patient.color }}>
-                  {patient.avatar}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Left Panel: Quick Stats + Security */}
+        <div className="space-y-6">
+          {/* Totals */}
+          <div className="bg-white rounded-2xl border border-[#e2e8f0] p-5">
+            <h3 className="font-bold text-[#171c1f] text-sm mb-4 uppercase tracking-wider">Directory Totals</h3>
+            <div className="space-y-3">
+              {[
+                { label: 'Total Patients', value: patients.length, color: 'text-[#0369a1]' },
+                { label: 'Critical', value: patients.filter(p => p.status === 'Critical').length, color: 'text-red-600' },
+                { label: 'In Review', value: patients.filter(p => p.status === 'In-Review').length, color: 'text-amber-600' },
+                { label: 'Stable', value: patients.filter(p => p.status === 'Stable').length, color: 'text-emerald-600' },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center justify-between py-2 border-b last:border-0 border-[#f1f5f9]">
+                  <span className="text-sm text-[#64748b]">{item.label}</span>
+                  <span className={`text-lg font-extrabold ${item.color}`}>{item.value}</span>
                 </div>
-                <div>
-                  <div className="flex items-center gap-3 mb-1">
-                    <h3 className="font-bold text-lg text-[#171c1f]">{patient.name}</h3>
-                    <span className="text-xs text-[#64748b] bg-[#f1f5f9] px-3 py-1 rounded-full">{patient.id}</span>
-                  </div>
-                  <div className="flex items-center gap-4 text-sm text-[#64748b] mb-2">
-                    <span className="font-semibold">{patient.age} years • {patient.gender}</span>
-                    <span className="font-semibold">Blood Type: {patient.bloodType}</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2 text-xs text-[#64748b]">
-                      <Phone className="size-3.5" /> <span>{patient.phone}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#64748b]">
-                      <Mail className="size-3.5" /> <span>{patient.email}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-8">
-                <div>
-                  <div className="font-semibold text-xs text-[#64748b] mb-1">Last Visit</div>
-                  <div className="font-semibold text-sm text-[#171c1f]">{patient.lastVisit}</div>
-                </div>
-                <div>
-                  <div className="font-semibold text-xs text-[#64748b] mb-1">Next Appointment</div>
-                  <div className="font-semibold text-sm text-[#171c1f]">{patient.nextAppointment}</div>
-                </div>
-                <div>
-                  <div className="font-semibold text-xs text-[#64748b] mb-1">Primary Doctor</div>
-                  <div className="font-semibold text-sm text-[#171c1f]">{patient.doctor}</div>
-                </div>
-                <div className={`px-4 py-2 rounded-full font-semibold text-sm ${getStatusColor(patient.status)}`}>
-                  {patient.status}
-                </div>
-                <button className="p-2 bg-gradient-to-r from-[#006591] to-[#0ea5e9] text-white rounded-xl hover:shadow-lg transition-all">
-                  <FileText className="size-5" />
-                </button>
-              </div>
+              ))}
             </div>
           </div>
-        ))}
+
+          {/* Data Sharing Controls */}
+          <div className="bg-white rounded-2xl border border-[#e2e8f0] p-5">
+            <div className="flex items-center gap-2 mb-4">
+              <Shield className="size-4 text-[#0369a1]" />
+              <h3 className="font-bold text-[#171c1f] text-sm">Security Controls</h3>
+            </div>
+            {['Lab Results', 'X-Ray Imaging', 'Prescriptions'].map((item, i) => (
+              <div key={i} className="flex items-center justify-between py-2.5 border-b last:border-0 border-[#f1f5f9]">
+                <span className="text-sm text-[#475569]">{item}</span>
+                <div className="w-10 h-5 bg-[#0ea5e9] rounded-full relative cursor-pointer">
+                  <div className="absolute right-0.5 top-0.5 size-4 bg-white rounded-full shadow-sm" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right Panel: Patient List */}
+        <div className="lg:col-span-3 space-y-4">
+          {/* Search + Tabs */}
+          <div className="flex items-center gap-4 flex-wrap">
+            <div className="relative flex-1 min-w-[200px]">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[#94a3b8]" />
+              <input type="text" placeholder="Search patients..." className="w-full bg-white border border-[#e2e8f0] rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]" />
+            </div>
+            <div className="flex gap-1 bg-[#f1f5f9] p-1 rounded-xl">
+              {tabs.map(tab => (
+                <button key={tab} onClick={() => setActiveTab(tab)}
+                  className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeTab === tab ? 'bg-white shadow-sm text-[#0369a1]' : 'text-[#64748b] hover:text-[#171c1f]'}`}>
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Patient Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {filtered.map((p, i) => (
+              <div key={i} className="bg-white rounded-2xl border border-[#e2e8f0] p-5 hover:shadow-md transition-all cursor-pointer group">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="size-11 rounded-full bg-gradient-to-br from-[#006591] to-[#0ea5e9] flex items-center justify-center text-white text-sm font-bold shrink-0">
+                      {p.name.split(' ').map(n => n[0]).join('')}
+                    </div>
+                    <div>
+                      <p className="font-bold text-[#171c1f] group-hover:text-[#0369a1] transition-colors">{p.name}</p>
+                      <p className="text-xs text-[#64748b]">{p.id} • Age {p.age}</p>
+                    </div>
+                  </div>
+                  <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border ${statusColor(p.status)}`}>{p.status}</span>
+                </div>
+                <p className="text-sm text-[#475569] mb-3">{p.diagnosis}</p>
+                <div className="flex items-center gap-4 text-xs">
+                  <span className="flex items-center gap-1"><Activity className={`size-3 ${spo2Color(p.spo2)}`} /><span className="font-bold">SpO2: {p.spo2}%</span></span>
+                  <span className="flex items-center gap-1"><Heart className="size-3 text-red-500" /><span className="font-bold">HR: {p.hr}</span></span>
+                  <span className="flex items-center gap-1"><FileText className="size-3 text-[#64748b]" /><span>Room {p.room}</span></span>
+                </div>
+                <p className="text-[10px] text-[#94a3b8] mt-2">Updated {p.lastUpdate}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

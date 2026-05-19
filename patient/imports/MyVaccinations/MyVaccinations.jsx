@@ -504,7 +504,7 @@ function Container22() {
 
 function HeaderTopAppBar() {
   return (
-    <div className="backdrop-blur-[12px] bg-[rgba(241,245,249,0.7)] relative shrink-0 w-full z-[2]" data-name="Header - TopAppBar">
+    <div className="backdrop-blur-[12px] bg-[rgba(241,245,249,0.7)] relative shrink-0 w-full z-[2] hidden" data-name="Header - TopAppBar">
       <div className="flex flex-row items-center size-full">
         <div className="content-stretch flex items-center justify-between px-[32px] py-[16px] relative size-full">
           <Container22 />
@@ -539,8 +539,8 @@ function Heading1() {
 
 function Container29() {
   return (
-    <div className="content-stretch flex flex-col items-start max-w-[448px] pb-[16px] relative shrink-0 w-[448px]" data-name="Container">
-      <div className="flex flex-col font-['Inter:Regular',sans-serif] font-normal h-[52px] justify-center leading-[0] not-italic relative shrink-0 text-[16px] text-[rgba(255,255,255,0.8)] w-[442.84px]">
+    <div className="content-stretch flex flex-col items-start max-w-[448px] pb-[16px] relative shrink-0 w-full" data-name="Container">
+      <div className="flex flex-col font-['Inter:Regular',sans-serif] font-normal justify-center leading-normal not-italic relative shrink-0 text-[16px] text-[rgba(255,255,255,0.8)] w-full">
         <p className="leading-[26px] mb-0">You are up to date with 85% of your recommended clinical</p>
         <p className="leading-[26px]">vaccinations. Next seasonal update due in 45 days.</p>
       </div>

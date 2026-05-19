@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router';
-import { PlusCircle, Building2, UserPlus, Megaphone, LayoutDashboard, Stethoscope, Users, Calendar, Settings, Activity } from 'lucide-react';
+import { PlusCircle, Building2, UserPlus, Megaphone, LayoutDashboard, Stethoscope, Users, Calendar, Settings, Activity, Home } from 'lucide-react';
 import imgAccountCircle from '../../imports/ArcioDashboardRedesigned/0451c2026263616c0d537799cc29de3ad82d5750.png';
 import imgClinicLogo from '../../imports/ArcioDashboardRedesigned/634c264d1793a35ca2abfaccbe62de1de1d4811e.png';
 
@@ -56,14 +56,26 @@ export function Sidebar({ collapsed }) {
 
         {/* User Profile at Bottom */}
         <div className="p-4 border-t border-[#e2e8f0]">
-          <div className={`flex items-center gap-3 ${collapsed ? 'justify-center' : ''}`}>
-            <img src={imgAccountCircle} alt="Admin" className="size-8 rounded-full border border-[#e2e8f0]" />
-            {!collapsed && (
-              <div className="overflow-hidden">
-                <div className="text-xs font-bold text-[#171c1f] truncate">Dr. Arcio Admin</div>
-                <div className="text-[10px] text-[#64748b] truncate">admin@arcio.health</div>
-              </div>
-            )}
+          <div className={`flex flex-col gap-4`}>
+            <div className={`flex items-center gap-3 ${collapsed ? 'justify-center' : ''}`}>
+              <img src={imgAccountCircle} alt="Admin" className="size-8 rounded-full border border-[#e2e8f0]" />
+              {!collapsed && (
+                <div className="overflow-hidden">
+                  <div className="text-xs font-bold text-[#171c1f] truncate">Dr. Arcio Admin</div>
+                  <div className="text-[10px] text-[#64748b] truncate">admin@arcio.health</div>
+                </div>
+              )}
+            </div>
+            
+            <Link 
+              to="/" 
+              className={`flex items-center gap-3 py-2 px-3 rounded-xl transition-all duration-200 group text-[#dc2626] bg-[#fee2e2] hover:bg-[#fecaca] ${collapsed ? 'justify-center' : ''}`}
+            >
+              <Home className={`size-5 shrink-0 text-[#dc2626]`} />
+              {!collapsed && (
+                <span className="text-sm font-bold whitespace-nowrap overflow-hidden">Back to Home</span>
+              )}
+            </Link>
           </div>
         </div>
       </div>

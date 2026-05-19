@@ -581,7 +581,7 @@ function Container24() {
 
 function HeaderTopAppBarAuthoritySourceJson() {
   return (
-    <div className="backdrop-blur-[12px] bg-[rgba(241,245,249,0.7)] drop-shadow-[0px_4px_15px_rgba(0,0,0,0.03)] relative shrink-0 w-full z-[2]" data-name="Header - Top App Bar (Authority Source: JSON)">
+    <div className="backdrop-blur-[12px] bg-[rgba(241,245,249,0.7)] drop-shadow-[0px_4px_15px_rgba(0,0,0,0.03)] relative shrink-0 w-full z-[2] hidden" data-name="Header - Top App Bar (Authority Source: JSON)">
       <div className="flex flex-row items-center size-full">
         <div className="content-stretch flex items-center justify-between px-[32px] py-[16px] relative size-full">
           <Background />
@@ -618,7 +618,7 @@ function Container29() {
   return (
     <div className="content-stretch flex gap-[8px] items-center relative shrink-0 w-full" data-name="Container">
       <Container30 />
-      <div className="flex flex-col font-['Inter:Medium',sans-serif] font-medium h-[48px] justify-center leading-[0] not-italic relative shrink-0 text-[#40484e] text-[16px] w-[448.64px]">
+      <div className="flex flex-col font-['Inter:Medium',sans-serif] font-medium justify-center leading-normal not-italic relative shrink-0 text-[#40484e] text-[16px] w-full">
         <p className="leading-[24px] mb-0">Last synchronized: Today at 08:42 AM • Secure Read-only</p>
         <p className="leading-[24px]">Access</p>
       </div>
@@ -628,7 +628,7 @@ function Container29() {
 
 function Container28() {
   return (
-    <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-[472.64px]" data-name="Container">
+    <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full" data-name="Container">
       <Heading1 />
       <Container29 />
     </div>

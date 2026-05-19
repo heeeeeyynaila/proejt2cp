@@ -13,7 +13,7 @@ export default function AddAnnouncement() {
     setTimeout(() => {
       setLoading(false);
       setSuccess(true);
-      setTimeout(() => navigate('/admin/announcements'), 1500);
+      setTimeout(() => navigate('/admin'), 1500);
     }, 1200);
   };
 
@@ -48,7 +48,7 @@ export default function AddAnnouncement() {
 
       <div className="form-card w-full max-w-xl bg-white/70 backdrop-blur-2xl rounded-[32px] p-10 border border-white shadow-2xl relative z-10">
         <button 
-          onClick={() => navigate('/admin/announcements')}
+          onClick={() => navigate('/admin')}
           className="flex items-center gap-2 text-sm font-semibold text-[#64748b] hover:text-[#006591] mb-8 transition-colors group"
         >
           <ArrowLeft className="size-4 group-hover:-translate-x-1 transition-transform" /> Back to Announcements

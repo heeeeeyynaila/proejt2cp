@@ -1004,7 +1004,7 @@ function EmptyStateIllustrationOrPlaceholderForMore() {
 
 function MainAppointmentListLargeCard() {
   return (
-    <div className="col-[1/span_2] content-stretch flex flex-col gap-[24px] items-start justify-self-stretch pb-[149px] relative row-1 self-start shrink-0" data-name="Main Appointment List (Large Card)">
+    <div className="col-[1/span_2] content-stretch flex flex-col gap-[24px] items-start justify-self-stretch relative row-1 self-start shrink-0" data-name="Main Appointment List (Large Card)">
       <Container14 />
       <AppointmentCard1ScheduledPrimary />
       <AppointmentCard2Pending />
@@ -1421,7 +1421,7 @@ function SidebarInfoRightRail() {
 
 function BentoGridLayoutForAppointments() {
   return (
-    <div className="gap-x-[32px] gap-y-[32px] grid grid-cols-[repeat(3,minmax(0,1fr))] grid-rows-[_823px] relative shrink-0 w-full" data-name="Bento Grid Layout for Appointments">
+    <div className="gap-x-[32px] gap-y-[32px] grid grid-cols-[repeat(3,minmax(0,1fr))] grid-rows-[auto] relative shrink-0 w-full" data-name="Bento Grid Layout for Appointments">
       <MainAppointmentListLargeCard />
       <SidebarInfoRightRail />
     </div>
@@ -1545,7 +1545,7 @@ function Container66() {
 
 function HeaderTopAppBarJsonDerived() {
   return (
-    <div className="absolute backdrop-blur-[12px] bg-[rgba(241,245,249,0.7)] content-stretch flex items-center justify-between left-0 px-[32px] py-[16px] right-0 top-0" data-name="Header - TopAppBar (JSON Derived)">
+    <div className="absolute backdrop-blur-[12px] bg-[rgba(241,245,249,0.7)] content-stretch flex items-center justify-between left-0 px-[32px] py-[16px] right-0 top-0 hidden" data-name="Header - TopAppBar (JSON Derived)">
       <Container66 />
     </div>
   );

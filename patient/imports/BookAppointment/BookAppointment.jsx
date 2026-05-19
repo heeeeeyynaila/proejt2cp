@@ -495,7 +495,7 @@ function Container22() {
 
 function HeaderTopAppBarSharedComponent() {
   return (
-    <div className="backdrop-blur-[12px] bg-[rgba(241,245,249,0.7)] relative shrink-0 w-full z-[2]" data-name="Header - Top App Bar (Shared Component)">
+    <div className="backdrop-blur-[12px] bg-[rgba(241,245,249,0.7)] relative shrink-0 w-full z-[2] hidden" data-name="Header - Top App Bar (Shared Component)">
       <div className="flex flex-row items-center size-full">
         <div className="content-stretch flex items-center justify-between px-[32px] py-[16px] relative size-full">
           <Container22 />

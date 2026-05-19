@@ -1,14 +1,21 @@
-import { Search, Bell, User } from "lucide-react";
+import { Search, Bell, User, Settings, Calendar } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { useNavigate, Link } from "react-router";
 
 export function Header() {
+  const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const notificationRef = useRef(null);
+  const profileRef = useRef(null);
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (notificationRef.current && !notificationRef.current.contains(event.target)) {
         setShowNotifications(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setShowProfileMenu(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -35,17 +42,33 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-4">
+
+        <button 
+          onClick={() => navigate('/patient/appointments')}
+          className="p-2.5 hover:bg-[#f8fafc] rounded-xl transition-colors text-[#64748b]"
+          title="Calendar"
+        >
+          <Calendar className="size-6" />
+        </button>
+        <button 
+          onClick={() => navigate('/patient/settings')}
+          className="p-2.5 hover:bg-[#f8fafc] rounded-xl transition-colors text-[#64748b]"
+          title="Settings"
+        >
+          <Settings className="size-6" />
+        </button>
+
         <div className="relative" ref={notificationRef}>
           <button 
             onClick={() => setShowNotifications(!showNotifications)}
-            className="p-2.5 hover:bg-[#f8fafc] rounded-xl transition-colors relative"
+            className={`p-2.5 rounded-xl transition-all relative ${showNotifications ? 'bg-[#0ea5e9]/10 text-[#0ea5e9]' : 'hover:bg-[#f8fafc] text-[#64748b]'}`}
           >
-            <Bell className="size-6 text-[#64748b]" />
+            <Bell className="size-6" />
             <span className="absolute top-2.5 right-2.5 size-2.5 bg-[#dc2626] border-2 border-white rounded-full"></span>
           </button>
 
           {showNotifications && (
-            <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-[#e2e8f0] overflow-hidden animate-in fade-in zoom-in duration-200">
+            <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-[#e2e8f0] overflow-hidden animate-in fade-in zoom-in duration-200 z-50">
               <div className="p-4 border-b border-[#e2e8f0] flex items-center justify-between bg-[#f8fafc]">
                 <h3 className="font-bold text-[#171c1f]">Notifications</h3>
                 <span className="text-xs font-semibold text-[#006591] cursor-pointer hover:underline">Mark all as read</span>
@@ -64,9 +87,13 @@ export function Header() {
                 ))}
               </div>
               <div className="p-3 bg-[#f8fafc] text-center border-t border-[#e2e8f0]">
-                <button className="text-xs font-bold text-[#64748b] hover:text-[#006591] transition-colors">
+                <Link 
+                  to="/patient/announcements" 
+                  onClick={() => setShowNotifications(false)}
+                  className="block w-full py-2 text-sm font-bold text-[#006591] hover:bg-[#006591]/5 rounded-xl transition-colors"
+                >
                   View all announcements
-                </button>
+                </Link>
               </div>
             </div>
           )}
@@ -74,14 +101,46 @@ export function Header() {
 
         <div className="h-8 w-px bg-[#e2e8f0] mx-2"></div>
 
-        <div className="flex items-center gap-3 pl-2">
-          <div className="text-right">
-            <div className="text-sm font-bold text-[#171c1f]">John Smith</div>
-            <div className="text-[11px] font-semibold text-[#64748b]">Patient ID: P-2024-147</div>
+        {/* Profile Section with dropdown */}
+        <div className="relative" ref={profileRef}>
+          <div 
+            className="flex items-center gap-3 pl-2 cursor-pointer"
+            onClick={() => setShowProfileMenu(!showProfileMenu)}
+          >
+            <div className="text-right">
+              <div className="text-sm font-bold text-[#171c1f]">John Smith</div>
+              <div className="text-[11px] font-semibold text-[#64748b]">Patient ID: P-2024-147</div>
+            </div>
+            <div className="size-10 rounded-full bg-gradient-to-br from-[#006591] to-[#0ea5e9] flex items-center justify-center text-white font-bold border-2 border-white shadow-sm hover:shadow-md transition-all">
+              JS
+            </div>
           </div>
-          <div className="size-10 rounded-full bg-gradient-to-br from-[#006591] to-[#0ea5e9] flex items-center justify-center text-white font-bold border-2 border-white shadow-sm cursor-pointer hover:shadow-md transition-all">
-            JS
-          </div>
+
+          {showProfileMenu && (
+            <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-xl border border-[#e2e8f0] py-2 z-50">
+              <Link 
+                to="/patient/profile"
+                onClick={() => setShowProfileMenu(false)}
+                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-[#475569] hover:bg-[#f8fafc] hover:text-[#006591] transition-colors"
+              >
+                <User className="h-4 w-4" /> My Profile
+              </Link>
+              <Link 
+                to="/patient/settings"
+                onClick={() => setShowProfileMenu(false)}
+                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-[#475569] hover:bg-[#f8fafc] hover:text-[#006591] transition-colors"
+              >
+                <Settings className="h-4 w-4" /> Settings
+              </Link>
+              <div className="h-px bg-[#f1f5f9] my-1"></div>
+              <Link 
+                to="/"
+                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-[#ef4444] hover:bg-[#fff1f2] transition-colors"
+              >
+                Sign Out
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </header>

@@ -148,7 +148,7 @@ function Header() {
 
 function HeaderMargin() {
   return (
-    <div className="absolute content-stretch flex flex-col items-start left-0 pl-[288px] pr-[32px] pt-[16px] right-0 top-0" data-name="Header:margin">
+    <div className="content-stretch flex flex-col items-start px-[32px] pt-[16px] w-full" data-name="Header:margin">
       <Header />
     </div>
   );
@@ -1238,7 +1238,7 @@ function Container49() {
 
 function Container29() {
   return (
-    <div className="gap-x-[32px] gap-y-[32px] grid grid-cols-[repeat(12,minmax(0,1fr))] grid-rows-[_806.25px] relative shrink-0 w-full" data-name="Container">
+    <div className="gap-x-[32px] gap-y-[32px] grid grid-cols-[repeat(12,minmax(0,1fr))] grid-rows-[auto] relative shrink-0 w-full" data-name="Container">
       <Container30 />
       <Container49 />
     </div>
@@ -1247,7 +1247,7 @@ function Container29() {
 
 function MainSection() {
   return (
-    <div className="absolute content-stretch flex flex-col gap-[40px] items-start left-[328px] max-w-[1152px] right-[40px] top-[130px]" data-name="Main → Section">
+    <div className="content-stretch flex flex-col gap-[40px] items-start px-[32px] pt-[24px] pb-[40px] w-full" data-name="Main → Section">
       <Container25 />
       <Container29 />
     </div>
@@ -1256,8 +1256,7 @@ function MainSection() {
 
 export default function Notification() {
   return (
-    <div className="relative size-full" style={{ backgroundImage: "linear-gradient(90deg, rgb(241, 245, 249) 0%, rgb(241, 245, 249) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)" }} data-name="notification">
-      <HeaderMargin />
+    <div className="relative w-full min-h-screen" style={{ backgroundImage: "linear-gradient(90deg, rgb(241, 245, 249) 0%, rgb(241, 245, 249) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)" }} data-name="notification">
       <Aside />
       <MainSection />
     </div>

@@ -13,7 +13,7 @@ export default function AddService() {
     setTimeout(() => {
       setLoading(false);
       setSuccess(true);
-      setTimeout(() => navigate('/admin/services'), 1500);
+      setTimeout(() => navigate('/admin'), 1500);
     }, 1500);
   };
 
@@ -34,11 +34,11 @@ export default function AddService() {
 
       <div className="form-card w-full max-w-2xl relative z-10">
         <button 
-          onClick={() => navigate('/admin/services')}
+          onClick={() => navigate('/admin')}
           className="flex items-center gap-2 text-[#64748b] hover:text-[#006591] transition-colors mb-8 group"
         >
           <ArrowLeft className="size-5 group-hover:-translate-x-1 transition-transform" />
-          <span className="font-semibold">Back to Services</span>
+          <span className="font-semibold">Back to Dashboard</span>
         </button>
 
         <div className="backdrop-blur-xl bg-white/60 border border-white/40 shadow-[0_20px_50px_rgba(0,0,0,0.05)] rounded-[40px] p-12 relative overflow-hidden">
@@ -100,20 +100,20 @@ export default function AddService() {
 
                 <div className="field-animate grid grid-cols-1 md:grid-cols-2 gap-6" style={{ animationDelay: '0.25s' }}>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-[#334155] ml-1">Base Cost ($)</label>
-                    <input 
-                      type="number" 
-                      placeholder="0.00"
-                      className="w-full bg-white/50 border border-white/60 rounded-2xl px-5 py-4 focus:outline-none focus:ring-4 focus:ring-[#0ea5e9]/10 focus:border-[#0ea5e9] transition-all text-[#0f172a]"
-                    />
-                  </div>
-                  <div className="space-y-2">
                     <label className="text-sm font-bold text-[#334155] ml-1">Duration (minutes)</label>
                     <input 
                       type="number" 
                       placeholder="30"
                       className="w-full bg-white/50 border border-white/60 rounded-2xl px-5 py-4 focus:outline-none focus:ring-4 focus:ring-[#0ea5e9]/10 focus:border-[#0ea5e9] transition-all text-[#0f172a]"
                     />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-[#334155] ml-1">Availability</label>
+                    <select className="w-full bg-white/50 border border-white/60 rounded-2xl px-5 py-4 focus:outline-none focus:ring-4 focus:ring-[#0ea5e9]/10 focus:border-[#0ea5e9] transition-all text-[#0f172a]">
+                      <option>Available</option>
+                      <option>Limited</option>
+                      <option>By Referral Only</option>
+                    </select>
                   </div>
                 </div>
 

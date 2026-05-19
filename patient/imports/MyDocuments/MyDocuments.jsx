@@ -523,7 +523,7 @@ function Container22() {
 
 function HeaderTopAppBar() {
   return (
-    <div className="backdrop-blur-[12px] bg-[rgba(241,245,249,0.7)] relative shrink-0 w-full z-[2]" data-name="Header - TopAppBar">
+    <div className="backdrop-blur-[12px] bg-[rgba(241,245,249,0.7)] relative shrink-0 w-full z-[2] hidden" data-name="Header - TopAppBar">
       <div className="flex flex-row items-center size-full">
         <div className="content-stretch flex items-center justify-between px-[32px] py-[16px] relative size-full">
           <Container22 />
@@ -555,7 +555,7 @@ function Container30() {
 
 function Container29() {
   return (
-    <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-[370.78px]" data-name="Container">
+    <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-auto" data-name="Container">
       <Heading1 />
       <Container30 />
     </div>
@@ -574,7 +574,7 @@ function Container33() {
 
 function Input() {
   return (
-    <div className="bg-white content-stretch flex items-start justify-center overflow-clip pb-[12px] pl-[40px] pr-[16px] pt-[11px] relative rounded-[12px] shadow-[0px_0px_0px_1px_#e2e8f0] shrink-0 w-[256px]" data-name="Input">
+    <div className="bg-white content-stretch flex items-start justify-center overflow-clip pb-[12px] pl-[40px] pr-[16px] pt-[11px] relative rounded-[12px] shadow-[0px_0px_0px_1px_#e2e8f0] shrink-0 w-full max-w-[256px]" data-name="Input">
       <Container33 />
     </div>
   );
