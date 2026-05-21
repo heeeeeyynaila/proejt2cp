@@ -20,7 +20,8 @@ import {
   Patients as DoctorPatients, 
   Settings as DoctorSettings, Notifications as DoctorNotifications, 
   Schedule as DoctorSchedule, NewAppointment as DoctorNewAppointment, 
-  AddPatient as DoctorAddPatient, SwitchShift as DoctorSwitchShift
+  AddPatient as DoctorAddPatient, SwitchShift as DoctorSwitchShift,
+  PatientFile as DoctorPatientFile
 } from '../doctor/app/pages';
 
 // Patient portal
@@ -116,6 +117,7 @@ const router = createBrowserRouter([
       { path: 'schedule',         Component: DoctorSchedule        },
       { path: 'new-appointment',  Component: DoctorNewAppointment  },
       { path: 'patients/new',     Component: DoctorAddPatient      },
+      { path: 'patients/file',    Component: DoctorPatientFile     },
       { path: 'switch-shift',     Component: DoctorSwitchShift     },
     ],
   },

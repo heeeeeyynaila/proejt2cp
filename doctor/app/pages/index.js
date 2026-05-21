@@ -8,3 +8,4 @@ export { default as Schedule } from './Schedule';
 export { default as NewAppointment } from './NewAppointment';
 export { default as AddPatient } from './AddPatient';
 export { default as SwitchShift } from './SwitchShift';
+export { default as PatientFile } from './PatientFile';

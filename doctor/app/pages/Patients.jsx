@@ -38,9 +38,14 @@ export default function Patients() {
             <p className="text-sm text-[#64748b]">{patients.length} patients under care</p>
           </div>
         </div>
-        <button onClick={() => navigate('/doctor/patients/new')} className="px-5 py-2.5 bg-gradient-to-r from-[#006591] to-[#0ea5e9] text-white rounded-xl font-semibold text-sm shadow-lg shadow-cyan-500/20 hover:shadow-xl transition-all">
-          + Add Patient
-        </button>
+        <div className="flex gap-3">
+          <button onClick={() => navigate('/doctor/patients/file')} className="px-5 py-2.5 bg-white border border-[#e2e8f0] text-[#0369a1] rounded-xl font-semibold text-sm hover:bg-[#f0f9ff] hover:border-[#0ea5e9] transition-all flex items-center gap-2">
+            <FileText className="size-4" /> Patient File
+          </button>
+          <button onClick={() => navigate('/doctor/patients/new')} className="px-5 py-2.5 bg-gradient-to-r from-[#006591] to-[#0ea5e9] text-white rounded-xl font-semibold text-sm shadow-lg shadow-cyan-500/20 hover:shadow-xl transition-all">
+            + Add Patient
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
