@@ -67,8 +67,13 @@ export default function AddDoctor() {
 
         <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-x-6 gap-y-6">
           <div className="field-animate col-span-2 sm:col-span-1 space-y-2" style={{ animationDelay: '0.15s' }}>
-            <label className="text-sm font-bold text-[#1e293b] ml-1">Full Name</label>
-            <input required type="text" placeholder="Dr. John Doe" className="w-full pl-5 pr-5 py-3.5 bg-white/50 border border-[#e2e8f0] rounded-2xl outline-none focus:ring-4 focus:ring-[#006591]/10 focus:border-[#006591] transition-all text-sm" />
+            <label className="text-sm font-bold text-[#1e293b] ml-1">First Name</label>
+            <input required type="text" placeholder="e.g. John" className="w-full pl-5 pr-5 py-3.5 bg-white/50 border border-[#e2e8f0] rounded-2xl outline-none focus:ring-4 focus:ring-[#006591]/10 focus:border-[#006591] transition-all text-sm" />
+          </div>
+
+          <div className="field-animate col-span-2 sm:col-span-1 space-y-2" style={{ animationDelay: '0.18s' }}>
+            <label className="text-sm font-bold text-[#1e293b] ml-1">Last Name</label>
+            <input required type="text" placeholder="e.g. Doe" className="w-full pl-5 pr-5 py-3.5 bg-white/50 border border-[#e2e8f0] rounded-2xl outline-none focus:ring-4 focus:ring-[#006591]/10 focus:border-[#006591] transition-all text-sm" />
           </div>
 
           <div className="field-animate col-span-2 sm:col-span-1 space-y-2" style={{ animationDelay: '0.2s' }}>
@@ -76,27 +81,32 @@ export default function AddDoctor() {
             <input required type="email" placeholder="john.doe@arcio.health" className="w-full pl-5 pr-5 py-3.5 bg-white/50 border border-[#e2e8f0] rounded-2xl outline-none focus:ring-4 focus:ring-[#006591]/10 focus:border-[#006591] transition-all text-sm" />
           </div>
 
+          <div className="field-animate col-span-2 sm:col-span-1 space-y-2" style={{ animationDelay: '0.22s' }}>
+            <label className="text-sm font-bold text-[#1e293b] ml-1">Password</label>
+            <input required type="password" placeholder="Minimum 8 characters" className="w-full pl-5 pr-5 py-3.5 bg-white/50 border border-[#e2e8f0] rounded-2xl outline-none focus:ring-4 focus:ring-[#006591]/10 focus:border-[#006591] transition-all text-sm" />
+          </div>
+
           <div className="field-animate col-span-2 sm:col-span-1 space-y-2" style={{ animationDelay: '0.25s' }}>
-            <label className="text-sm font-bold text-[#1e293b] ml-1">Specialization</label>
-            <input required type="text" placeholder="e.g. Neurologist" className="w-full pl-5 pr-5 py-3.5 bg-white/50 border border-[#e2e8f0] rounded-2xl outline-none focus:ring-4 focus:ring-[#006591]/10 focus:border-[#006591] transition-all text-sm" />
+            <label className="text-sm font-bold text-[#1e293b] ml-1">Phone</label>
+            <input required type="tel" placeholder="+212 600 000 000" className="w-full pl-5 pr-5 py-3.5 bg-white/50 border border-[#e2e8f0] rounded-2xl outline-none focus:ring-4 focus:ring-[#006591]/10 focus:border-[#006591] transition-all text-sm" />
+          </div>
+
+          <div className="field-animate col-span-2 sm:col-span-1 space-y-2" style={{ animationDelay: '0.28s' }}>
+            <label className="text-sm font-bold text-[#1e293b] ml-1">Grade</label>
+            <input required type="text" placeholder="e.g. Specialist, Resident, Professor" className="w-full pl-5 pr-5 py-3.5 bg-white/50 border border-[#e2e8f0] rounded-2xl outline-none focus:ring-4 focus:ring-[#006591]/10 focus:border-[#006591] transition-all text-sm" />
           </div>
 
           <div className="field-animate col-span-2 sm:col-span-1 space-y-2" style={{ animationDelay: '0.3s' }}>
-            <label className="text-sm font-bold text-[#1e293b] ml-1">Department</label>
+            <label className="text-sm font-bold text-[#1e293b] ml-1">Service</label>
             <select className="w-full px-5 py-3.5 bg-white/50 border border-[#e2e8f0] rounded-2xl outline-none focus:ring-4 focus:ring-[#006591]/10 focus:border-[#006591] transition-all text-sm appearance-none">
-              <option>Select Department</option>
+              <option>Select Service</option>
               <option>Cardiology</option>
               <option>Pediatrics</option>
               <option>Neurology</option>
             </select>
           </div>
 
-          <div className="field-animate col-span-2 space-y-2" style={{ animationDelay: '0.35s' }}>
-            <label className="text-sm font-bold text-[#1e293b] ml-1">Qualifications</label>
-            <input type="text" placeholder="MD, Ph.D. Harvard Medical School" className="w-full px-5 py-3.5 bg-white/50 border border-[#e2e8f0] rounded-2xl outline-none focus:ring-4 focus:ring-[#006591]/10 focus:border-[#006591] transition-all text-sm" />
-          </div>
-
-          <div className="field-animate col-span-2 pt-4" style={{ animationDelay: '0.4s' }}>
+          <div className="field-animate col-span-2 pt-4" style={{ animationDelay: '0.35s' }}>
             <button 
               type="submit"
               disabled={loading}

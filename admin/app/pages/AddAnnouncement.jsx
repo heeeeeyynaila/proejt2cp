@@ -80,15 +80,15 @@ export default function AddAnnouncement() {
             <div className="grid grid-cols-3 gap-3">
               <button type="button" className="flex flex-col items-center gap-2 p-3 rounded-xl border border-[#006591] bg-[#006591]/5 text-[#006591] hover:bg-[#006591]/10 transition-colors">
                 <Globe className="size-5" />
-                <span className="text-[10px] font-bold">Public</span>
+                <span className="text-[10px] font-bold">All</span>
               </button>
               <button type="button" className="flex flex-col items-center gap-2 p-3 rounded-xl border border-[#e2e8f0] hover:border-[#006591] transition-colors text-[#64748b] hover:text-[#006591]">
                 <Users className="size-5" />
-                <span className="text-[10px] font-bold">Patients</span>
+                <span className="text-[10px] font-bold">Guardians</span>
               </button>
               <button type="button" className="flex flex-col items-center gap-2 p-3 rounded-xl border border-[#e2e8f0] hover:border-[#006591] transition-colors text-[#64748b] hover:text-[#006591]">
                 <Lock className="size-5" />
-                <span className="text-[10px] font-bold">Staff Only</span>
+                <span className="text-[10px] font-bold">Doctors</span>
               </button>
             </div>
           </div>
