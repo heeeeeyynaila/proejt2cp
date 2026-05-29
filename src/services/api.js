@@ -58,7 +58,7 @@ async function request(endpoint, options = {}) {
   const data = await response.json().catch(() => null);
 
   if (!response.ok) {
-    const error = new Error(data?.detail || data?.message || `API Error ${response.status}`);
+    const error = new Error(data?.detail || data?.message || data?.error || `API Error ${response.status}`);
     error.status = response.status;
     error.data = data;
     throw error;
@@ -85,9 +85,10 @@ const upload = (endpoint, formData) =>
 const api = {
   // ── Auth ──
   auth: {
-    login:    (credentials) => post('/login/', credentials),
-    logout:   ()            => post('/logout/'),
-    me:       ()            => get('/my-profile/'),
+    login:          (credentials) => post('/login/', credentials),
+    logout:         ()            => post('/logout/'),
+    me:             ()            => get('/my-profile/'),
+    changePassword: (data)        => post('/change-password/', data),
   },
 
   // ── Patients ──

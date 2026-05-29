@@ -10,6 +10,9 @@ export default function Settings() {
   const [activeSection, setActiveSection] = useState('profile');
   const [profile, setProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [isSavingPassword, setIsSavingPassword] = useState(false);
 
   useEffect(() => {
     async function fetchProfile() {
@@ -168,6 +171,52 @@ export default function Settings() {
                       </div>
                     </div>
                   ))}
+                </div>
+              </div>
+
+              {/* Change Password */}
+              <div className="bg-white rounded-2xl border border-[#e2e8f0] p-6 space-y-4">
+                <h3 className="font-bold text-[#171c1f]">Update Security Password</h3>
+                <div className="space-y-3">
+                  <div>
+                    <label className="text-xs font-bold uppercase tracking-wider text-[#64748b] mb-1.5 block">Current Password</label>
+                    <input 
+                      type="password" 
+                      value={oldPassword} 
+                      onChange={(e) => setOldPassword(e.target.value)} 
+                      placeholder="••••••••••••" 
+                      className="w-full bg-[#f8fafc] border border-[#e2e8f0] rounded-xl px-4 py-2.5 text-sm text-[#171c1f] focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]" 
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold uppercase tracking-wider text-[#64748b] mb-1.5 block">New Password</label>
+                    <input 
+                      type="password" 
+                      value={newPassword} 
+                      onChange={(e) => setNewPassword(e.target.value)} 
+                      placeholder="••••••••••••" 
+                      className="w-full bg-[#f8fafc] border border-[#e2e8f0] rounded-xl px-4 py-2.5 text-sm text-[#171c1f] focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]" 
+                    />
+                  </div>
+                  <button 
+                    disabled={isSavingPassword || !oldPassword || !newPassword}
+                    onClick={async () => {
+                      try {
+                        setIsSavingPassword(true);
+                        await api.auth.changePassword({ old_password: oldPassword, new_password: newPassword });
+                        showToast('Password changed successfully!', 'success');
+                        setOldPassword('');
+                        setNewPassword('');
+                      } catch (err) {
+                        showToast(err?.message || 'Error changing password', 'error');
+                      } finally {
+                        setIsSavingPassword(false);
+                      }
+                    }}
+                    className="w-full py-3 bg-gradient-to-r from-[#006591] to-[#0ea5e9] text-white rounded-xl font-bold text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 font-[Manrope]"
+                  >
+                    {isSavingPassword ? <Loader2 className="size-4 animate-spin" /> : 'Update Password'}
+                  </button>
                 </div>
               </div>
 
