@@ -1,11 +1,25 @@
 import { Search, Bell, Settings, User, LogOut, FileText, CheckCircle, AlertTriangle } from 'lucide-react';
 import { useNavigate, Link } from 'react-router';
 import { useState, useRef, useEffect } from 'react';
+import api from '@/services/api';
 
 export function AdminHeader() {
   const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
+  const [profile, setProfile] = useState(null);
   const notifRef = useRef(null);
+
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const data = await api.auth.me();
+        setProfile(data);
+      } catch (err) {
+        console.error('Failed to fetch admin header profile:', err);
+      }
+    }
+    fetchProfile();
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -96,8 +110,8 @@ export function AdminHeader() {
         {/* User Profile */}
         <div className="flex items-center gap-3 pl-2 cursor-pointer group relative">
           <div className="text-right hidden sm:block">
-            <p className="text-sm font-semibold text-[#0f172a] group-hover:text-[#0ea5e9] transition-colors">Dr. Arcio Admin</p>
-            <p className="text-[10px] font-bold text-[#64748b] uppercase tracking-wider">Clinical Controller</p>
+            <p className="text-sm font-semibold text-[#0f172a] group-hover:text-[#0ea5e9] transition-colors">{profile?.full_name || 'Dr. Arcio Admin'}</p>
+            <p className="text-[10px] font-bold text-[#64748b] uppercase tracking-wider">{profile?.role || 'Clinical Controller'}</p>
           </div>
           
           <div className="relative">

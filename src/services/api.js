@@ -27,11 +27,16 @@ function getCookie(name) {
 async function request(endpoint, options = {}) {
   const url = `${BASE_URL}${endpoint}`;
 
+  const token = localStorage.getItem('access_token') || localStorage.getItem('token');
   const headers = {
     'Content-Type': 'application/json',
     'X-CSRFToken': getCookie('csrftoken'),
     ...options.headers,
   };
+
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
 
   // Remove Content-Type for FormData (browser sets boundary automatically)
   if (options.body instanceof FormData) {

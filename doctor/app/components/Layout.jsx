@@ -6,13 +6,27 @@ import {
 import { useState, useRef, useEffect } from 'react';
 import ScrollToTop from '../../../src/components/ScrollToTop';
 import { ArcioLogo } from '../../../src/components/ArcioLogo';
+import api from '@/services/api';
 
 export default function Layout() {
   const location = useLocation();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [profile, setProfile] = useState(null);
   const notifRef = useRef(null);
+
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const data = await api.auth.me();
+        setProfile(data);
+      } catch (err) {
+        console.error('Failed to fetch layout profile:', err);
+      }
+    }
+    fetchProfile();
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -80,12 +94,18 @@ export default function Layout() {
             <div className="flex flex-col gap-3">
               <div className={`flex items-center gap-3 ${collapsed ? 'justify-center' : ''}`}>
                 <div className="size-9 rounded-full bg-gradient-to-br from-[#006591] to-[#0ea5e9] border-2 border-[#e0f2fe] flex items-center justify-center shrink-0">
-                  <span className="text-white font-bold text-xs">DA</span>
+                  <span className="text-white font-bold text-xs">
+                    {profile?.full_name ? profile.full_name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'DR'}
+                  </span>
                 </div>
                 {!collapsed && (
                   <div className="overflow-hidden">
-                    <div className="text-xs font-bold text-[#171c1f] truncate">Dr. Arcio</div>
-                    <div className="text-[10px] text-[#64748b] truncate">Senior Doctor</div>
+                    <div className="text-xs font-bold text-[#171c1f] truncate">
+                      {profile?.full_name ? `Dr. ${profile.full_name.replace('Dr. ', '')}` : 'Doctor'}
+                    </div>
+                    <div className="text-[10px] text-[#64748b] truncate">
+                      {profile?.grade || 'Clinical Practitioner'}
+                    </div>
                   </div>
                 )}
               </div>
@@ -174,10 +194,16 @@ export default function Layout() {
             <div className="h-10 w-px bg-[#e2e8f0]" />
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/doctor/settings')}>
               <div className="text-right">
-                <div className="font-semibold text-sm text-[#171c1f]">Dr. Arcio</div>
-                <div className="font-semibold text-xs text-[#64748b] uppercase">Senior Doctor</div>
+                <div className="font-semibold text-sm text-[#171c1f]">
+                  {profile?.full_name ? `Dr. ${profile.full_name.replace('Dr. ', '')}` : 'Doctor'}
+                </div>
+                <div className="font-semibold text-xs text-[#64748b] uppercase">
+                  {profile?.grade || 'Clinical Practitioner'}
+                </div>
               </div>
-              <div className="size-10 rounded-full bg-gradient-to-br from-[#006591] to-[#0ea5e9] border-2 border-[#e0f2fe] hover:shadow-md transition-all" />
+              <div className="size-10 rounded-full bg-gradient-to-br from-[#006591] to-[#0ea5e9] border-2 border-[#e0f2fe] hover:shadow-md transition-all flex items-center justify-center text-white text-xs font-bold font-[Inter]">
+                {profile?.full_name ? profile.full_name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'DR'}
+              </div>
             </div>
           </div>
         </header>

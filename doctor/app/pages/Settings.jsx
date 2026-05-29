@@ -1,10 +1,31 @@
-import { User, Shield, Fingerprint, Monitor, Upload, ArrowLeft, Save, Key, Globe, Bell } from 'lucide-react';
+import { User, Shield, Fingerprint, Monitor, Upload, ArrowLeft, Save, Key, Globe, Bell, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import api from '@/services/api';
+import { useToast } from '@/components/Toast';
 
 export default function Settings() {
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [activeSection, setActiveSection] = useState('profile');
+  const [profile, setProfile] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        setIsLoading(true);
+        const data = await api.auth.me();
+        setProfile(data);
+        setIsLoading(false);
+      } catch (err) {
+        console.error(err);
+        setIsLoading(false);
+        showToast('Error loading profile details', 'error');
+      }
+    }
+    fetchProfile();
+  }, [showToast]);
 
   const sections = [
     { id: 'profile', label: 'Profile', icon: User },
@@ -25,17 +46,46 @@ export default function Settings() {
     { name: 'DEA Registration', status: 'Active', date: 'Valid until Aug 2027' },
   ];
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#f1f5f9] flex flex-col items-center justify-center p-8">
+        <Loader2 className="size-12 text-[#0ea5e9] animate-spin mb-4" />
+        <p className="text-[#64748b] font-medium">Loading settings...</p>
+      </div>
+    );
+  }
+
+  const initials = profile?.full_name 
+    ? profile.full_name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() 
+    : 'DR';
+
+  const shortName = profile?.full_name 
+    ? `Dr. ${profile.full_name.replace('Dr. ', '')}` 
+    : 'Doctor';
+
+  const profileFields = [
+    { label: 'Full Name', value: profile?.full_name || '' },
+    { label: 'Email', value: profile?.email || '' },
+    { label: 'Phone', value: profile?.phone || 'Not provided' },
+    { label: 'Address', value: profile?.address || 'Not provided' },
+    { label: 'Service', value: profile?.service || 'N/A' },
+    { label: 'Grade', value: profile?.grade || 'N/A' },
+  ];
+
   return (
     <div className="p-8 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button onClick={() => navigate('/doctor')} className="p-2 hover:bg-[#f1f5f9] rounded-xl transition-colors"><ArrowLeft className="size-5 text-[#64748b]" /></button>
           <div>
-            <h1 className="text-2xl font-extrabold text-[#171c1f] tracking-tight">Settings</h1>
+            <h1 className="text-2xl font-extrabold text-[#171c1f] tracking-tight font-[Manrope]">Settings</h1>
             <p className="text-sm text-[#64748b]">Account configuration & security</p>
           </div>
         </div>
-        <button className="px-5 py-2.5 bg-gradient-to-r from-[#006591] to-[#0ea5e9] text-white rounded-xl font-semibold text-sm shadow-lg shadow-cyan-500/20 flex items-center gap-2">
+        <button 
+          onClick={() => showToast('Changes saved successfully', 'success')}
+          className="px-5 py-2.5 bg-gradient-to-r from-[#006591] to-[#0ea5e9] text-white rounded-xl font-semibold text-sm shadow-lg shadow-cyan-500/20 flex items-center gap-2"
+        >
           <Save className="size-4" /> Save Changes
         </button>
       </div>
@@ -56,29 +106,22 @@ export default function Settings() {
           {activeSection === 'profile' && (
             <>
               {/* Profile Card */}
-              <div className="bg-white rounded-2xl border border-[#e2e8f0] p-6">
+              <div className="bg-white rounded-2xl border border-[#e2e8f0] p-6 shadow-sm">
                 <h3 className="font-bold text-[#171c1f] mb-6">Personal Information</h3>
                 <div className="flex items-start gap-6 mb-6">
                   <div className="relative">
-                    <div className="size-20 rounded-2xl bg-gradient-to-br from-[#006591] to-[#0ea5e9] flex items-center justify-center text-white text-2xl font-bold">DA</div>
+                    <div className="size-20 rounded-2xl bg-gradient-to-br from-[#006591] to-[#0ea5e9] flex items-center justify-center text-white text-2xl font-bold font-[Inter]">{initials}</div>
                     <button className="absolute -bottom-1 -right-1 size-7 bg-white border border-[#e2e8f0] rounded-full flex items-center justify-center shadow-sm hover:shadow-md">
                       <Upload className="size-3.5 text-[#64748b]" />
                     </button>
                   </div>
                   <div>
-                    <h4 className="text-lg font-bold text-[#171c1f]">Dr. Arcio</h4>
-                    <p className="text-sm text-[#64748b]">Senior Physician — Cardiology</p>
+                    <h4 className="text-lg font-bold text-[#171c1f]">{shortName}</h4>
+                    <p className="text-sm text-[#64748b]">{profile?.grade || 'Physician'} — {profile?.service || 'Clinical Sanctuary'}</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {[
-                    { label: 'Full Name', value: 'Dr. Arcio Rahman' },
-                    { label: 'Email', value: 'dr.arcio@hospital.org' },
-                    { label: 'Phone', value: '+212 600 123 456' },
-                    { label: 'Address', value: 'Casablanca, Morocco' },
-                    { label: 'Service', value: 'Cardiology' },
-                    { label: 'Grade', value: 'Specialist' },
-                  ].map((field, i) => (
+                  {profileFields.map((field, i) => (
                     <div key={i}>
                       <label className="text-xs font-bold uppercase tracking-wider text-[#64748b] mb-1.5 block">{field.label}</label>
                       <input type="text" defaultValue={field.value} className="w-full bg-[#f8fafc] border border-[#e2e8f0] rounded-xl px-4 py-2.5 text-sm text-[#171c1f] focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]" />

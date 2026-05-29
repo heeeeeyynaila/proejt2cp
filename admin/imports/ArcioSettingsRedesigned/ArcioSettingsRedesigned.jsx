@@ -366,10 +366,11 @@ function Container16() {
 }
 
 function Container24() {
+  const name = localStorage.getItem('user_fullname') || 'Dr. Julian Arcio';
   return (
     <div className="content-stretch flex flex-[1_0_0] flex-col items-start min-w-px overflow-clip relative" data-name="Container">
       <div className="flex flex-col font-['Inter:Medium',sans-serif] font-medium justify-center leading-[0] not-italic relative shrink-0 text-[#0f172a] text-[16px] w-full">
-        <p className="leading-[24px]">Dr. Julian Arcio</p>
+        <p className="leading-[24px]">{name}</p>
       </div>
     </div>
   );
@@ -424,10 +425,11 @@ function Container25() {
 }
 
 function Container28() {
+  const email = localStorage.getItem('user_email') || 'j.arcio@clinical-sanctuary.com';
   return (
     <div className="content-stretch flex flex-[1_0_0] flex-col items-start min-w-px overflow-clip relative" data-name="Container">
       <div className="flex flex-col font-['Inter:Medium',sans-serif] font-medium justify-center leading-[0] not-italic relative shrink-0 text-[#0f172a] text-[16px] w-full">
-        <p className="leading-[24px]">j.arcio@clinical-sanctuary.com</p>
+        <p className="leading-[24px]">{email}</p>
       </div>
     </div>
   );
@@ -1811,10 +1813,11 @@ function Profile() {
 }
 
 function Container105() {
+  const name = localStorage.getItem('user_fullname') || 'Dr. Julian Arcio';
   return (
     <div className="content-stretch flex flex-col items-start overflow-clip relative shrink-0 w-full" data-name="Container">
       <div className="flex flex-col font-['Inter:Semi_Bold',sans-serif] font-semibold h-[16px] justify-center leading-[0] not-italic relative shrink-0 text-[#0f172a] text-[12px] w-[87.8px]">
-        <p className="leading-[16px]">Dr. Julian Arcio</p>
+        <p className="leading-[16px]">{name}</p>
       </div>
     </div>
   );
