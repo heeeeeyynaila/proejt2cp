@@ -1006,10 +1006,11 @@ function Container57() {
 }
 
 function Container58() {
+  const adminName = localStorage.getItem('user_fullname') || 'Dr. Arcio';
   return (
     <div className="content-stretch flex flex-col items-start relative shrink-0 w-full" data-name="Container">
       <div className="flex flex-col font-['Inter:Regular',sans-serif] font-normal h-[15px] justify-center leading-[0] not-italic relative shrink-0 text-[#64748b] text-[10px] w-[148.11px]">
-        <p className="leading-[15px]">Added 2 hours ago by Dr. Arcio</p>
+        <p className="leading-[15px]">{`Added 2 hours ago by ${adminName}`}</p>
       </div>
     </div>
   );
@@ -1691,10 +1692,11 @@ function UserAvatar() {
 }
 
 function Container89() {
+  const fullname = localStorage.getItem('user_fullname') || 'Dr. Arcio Admin';
   return (
     <div className="content-stretch flex flex-col items-start overflow-clip relative shrink-0 w-full" data-name="Container">
-      <div className="flex flex-col font-['Inter:Semi_Bold',sans-serif] font-semibold h-[16px] justify-center leading-[0] not-italic relative shrink-0 text-[#171c1f] text-[12px] w-[90.31px]">
-        <p className="leading-[16px]">Dr. Arcio Admin</p>
+      <div className="flex flex-col font-['Inter:Semi_Bold',sans-serif] font-semibold h-[16px] justify-center leading-[0] not-italic relative shrink-0 text-[#171c1f] text-[12px] w-full">
+        <p className="leading-[16px]">{fullname}</p>
       </div>
     </div>
   );

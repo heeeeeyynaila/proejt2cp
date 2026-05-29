@@ -107,10 +107,11 @@ function Margin() {
 }
 
 function Container9() {
+  const fullname = localStorage.getItem('user_fullname') || 'Dr. Arcio Admin';
   return (
     <div className="content-stretch flex flex-col items-end relative shrink-0 w-full" data-name="Container">
-      <div className="flex flex-col font-['Inter:Semi_Bold',sans-serif] font-semibold h-[20px] justify-center leading-[0] not-italic relative shrink-0 text-[#171c1f] text-[14px] text-right w-[105.36px]">
-        <p className="leading-[20px]">Dr. Arcio Admin</p>
+      <div className="flex flex-col font-['Inter:Semi_Bold',sans-serif] font-semibold h-[20px] justify-center leading-[0] not-italic relative shrink-0 text-[#171c1f] text-[14px] text-right w-full">
+        <p className="leading-[20px]">{fullname}</p>
       </div>
     </div>
   );

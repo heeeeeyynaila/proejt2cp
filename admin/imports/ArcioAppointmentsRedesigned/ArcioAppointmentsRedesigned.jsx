@@ -1684,10 +1684,11 @@ function Background5() {
 }
 
 function Container73() {
+  const adminName = localStorage.getItem('user_fullname') || 'Dr. Arcio Admin';
   return (
     <div className="content-stretch flex flex-col items-start relative shrink-0 w-full" data-name="Container">
       <div className="flex flex-col font-['Inter:Semi_Bold',sans-serif] font-semibold h-[16px] justify-center leading-[0] not-italic relative shrink-0 text-[#0f172a] text-[12px] w-[90.31px]">
-        <p className="leading-[16px]">Dr. Arcio Admin</p>
+        <p className="leading-[16px]">{adminName}</p>
       </div>
     </div>
   );

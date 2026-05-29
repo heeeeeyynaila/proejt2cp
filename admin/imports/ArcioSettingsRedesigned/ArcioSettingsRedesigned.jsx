@@ -396,10 +396,12 @@ function Container23() {
 }
 
 function Container26() {
+  const role = localStorage.getItem('user_role');
+  const spec = role === 'admin' ? 'System Administrator' : 'Molecular Oncology & Precision Medicine';
   return (
     <div className="content-stretch flex flex-[1_0_0] flex-col items-start min-w-px overflow-clip relative" data-name="Container">
       <div className="flex flex-col font-['Inter:Medium',sans-serif] font-medium justify-center leading-[0] not-italic relative shrink-0 text-[#0f172a] text-[16px] w-full">
-        <p className="leading-[24px]">{`Molecular Oncology & Precision Medicine`}</p>
+        <p className="leading-[24px]">{spec}</p>
       </div>
     </div>
   );
@@ -455,10 +457,11 @@ function Container27() {
 }
 
 function Container30() {
+  const phone = localStorage.getItem('user_phone') || '+1 (555) 012-9843';
   return (
     <div className="content-stretch flex flex-[1_0_0] flex-col items-start min-w-px overflow-clip relative" data-name="Container">
       <div className="flex flex-col font-['Inter:Medium',sans-serif] font-medium justify-center leading-[0] not-italic relative shrink-0 text-[#0f172a] text-[16px] w-full">
-        <p className="leading-[24px]">+1 (555) 012-9843</p>
+        <p className="leading-[24px]">{phone}</p>
       </div>
     </div>
   );
@@ -1824,10 +1827,12 @@ function Container105() {
 }
 
 function Container106() {
+  const role = localStorage.getItem('user_role');
+  const roleText = role === 'admin' ? 'System Administrator' : 'Chief Medical Officer';
   return (
     <div className="content-stretch flex flex-col items-start overflow-clip relative shrink-0 w-full" data-name="Container">
-      <div className="flex flex-col font-['Inter:Regular',sans-serif] font-normal h-[15px] justify-center leading-[0] not-italic relative shrink-0 text-[#64748b] text-[10px] w-[100.45px]">
-        <p className="leading-[15px]">Chief Medical Officer</p>
+      <div className="flex flex-col font-['Inter:Regular',sans-serif] font-normal h-[15px] justify-center leading-[0] not-italic relative shrink-0 text-[#64748b] text-[10px] w-full">
+        <p className="leading-[15px]">{roleText}</p>
       </div>
     </div>
   );

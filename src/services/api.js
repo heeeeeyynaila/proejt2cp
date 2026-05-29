@@ -85,9 +85,9 @@ const upload = (endpoint, formData) =>
 const api = {
   // ── Auth ──
   auth: {
-    login:    (credentials) => post('/auth/login/', credentials),
-    logout:   ()            => post('/auth/logout/'),
-    me:       ()            => get('/auth/me/'),
+    login:    (credentials) => post('/login/', credentials),
+    logout:   ()            => post('/logout/'),
+    me:       ()            => get('/my-profile/'),
   },
 
   // ── Patients ──

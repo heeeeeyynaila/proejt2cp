@@ -1,13 +1,41 @@
 import { Search, Bell, User, Settings, Calendar } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router";
+import api from '@/services/api';
 
 export function Header() {
   const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [children, setChildren] = useState([]);
+  const [activeChild, setActiveChild] = useState(null);
+  const [guardianName, setGuardianName] = useState(localStorage.getItem('user_fullname') || 'Guardian');
   const notificationRef = useRef(null);
   const profileRef = useRef(null);
+
+  useEffect(() => {
+    async function loadChildren() {
+      try {
+        const list = await api.guardian.myChildren();
+        setChildren(list);
+        if (list.length > 0) {
+          const storedId = localStorage.getItem('active_child_id');
+          const found = list.find(c => c.id.toString() === storedId);
+          if (found) {
+            setActiveChild(found);
+            localStorage.setItem('active_child_name', found.full_name);
+          } else {
+            setActiveChild(list[0]);
+            localStorage.setItem('active_child_id', list[0].id.toString());
+            localStorage.setItem('active_child_name', list[0].full_name);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load children:', err);
+      }
+    }
+    loadChildren();
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -102,23 +130,42 @@ export function Header() {
         <div className="h-8 w-px bg-[#e2e8f0] mx-2"></div>
 
         {/* Dependent Switcher */}
-        <div className="relative group cursor-pointer mr-2 bg-[#f1f5f9] hover:bg-[#e2e8f0] border border-[#cbd5e1] rounded-full px-4 py-1.5 flex items-center gap-2 transition-colors">
-          <div className="size-2 bg-[#0ea5e9] rounded-full animate-pulse"></div>
-          <span className="text-sm font-semibold text-[#0f172a]">Julian Aris</span>
-          <svg className="size-4 text-[#64748b]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-          
-          <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-xl border border-[#e2e8f0] py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-            <div className="px-4 py-2 text-xs font-bold text-[#64748b] uppercase tracking-wider">Switch Dependent</div>
-            <div className="w-full flex items-center gap-3 px-4 py-2 text-sm text-[#0ea5e9] bg-[#f0f9ff] font-semibold cursor-pointer">
-               <div className="size-6 rounded-full bg-[#0ea5e9] text-white flex items-center justify-center text-xs">JA</div> Julian Aris
-            </div>
-            <div className="w-full flex items-center gap-3 px-4 py-2 text-sm text-[#475569] hover:bg-[#f8fafc] cursor-pointer transition-colors">
-               <div className="size-6 rounded-full bg-[#cbd5e1] text-white flex items-center justify-center text-xs">JS</div> John Smith
-            </div>
+        {activeChild && (
+          <div className="relative group cursor-pointer mr-2 bg-[#f1f5f9] hover:bg-[#e2e8f0] border border-[#cbd5e1] rounded-full px-4 py-1.5 flex items-center gap-2 transition-colors">
+            <div className="size-2 bg-[#0ea5e9] rounded-full animate-pulse"></div>
+            <span className="text-sm font-semibold text-[#0f172a]">{activeChild.full_name}</span>
+            <svg className="size-4 text-[#64748b]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+            
+            {children.length > 1 && (
+              <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-xl border border-[#e2e8f0] py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                <div className="px-4 py-2 text-xs font-bold text-[#64748b] uppercase tracking-wider">Switch Dependent</div>
+                {children.map(child => (
+                  <div 
+                    key={child.id}
+                    onClick={() => {
+                      localStorage.setItem('active_child_id', child.id.toString());
+                      localStorage.setItem('active_child_name', child.full_name);
+                      setActiveChild(child);
+                      window.location.reload();
+                    }}
+                    className={`w-full flex items-center gap-3 px-4 py-2 text-sm cursor-pointer transition-colors ${
+                      child.id === activeChild.id 
+                        ? 'text-[#0ea5e9] bg-[#f0f9ff] font-semibold' 
+                        : 'text-[#475569] hover:bg-[#f8fafc]'
+                    }`}
+                  >
+                     <div className="size-6 rounded-full bg-[#0ea5e9] text-white flex items-center justify-center text-[10px] font-bold">
+                       {child.full_name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
+                     </div> 
+                     {child.full_name}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
+        )}
 
         {/* Profile Section with dropdown */}
         <div className="relative" ref={profileRef}>
@@ -127,11 +174,11 @@ export function Header() {
             onClick={() => setShowProfileMenu(!showProfileMenu)}
           >
             <div className="text-right">
-              <div className="text-sm font-bold text-[#171c1f]">John Smith</div>
-              <div className="text-[11px] font-semibold text-[#64748b]">Patient ID: P-2024-147</div>
+              <div className="text-sm font-bold text-[#171c1f]">{guardianName}</div>
+              <div className="text-[11px] font-semibold text-[#64748b]">Primary Guardian</div>
             </div>
             <div className="size-10 rounded-full bg-gradient-to-br from-[#006591] to-[#0ea5e9] flex items-center justify-center text-white font-bold border-2 border-white shadow-sm hover:shadow-md transition-all">
-              JS
+              {guardianName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
             </div>
           </div>
 
