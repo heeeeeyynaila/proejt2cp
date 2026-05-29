@@ -105,11 +105,24 @@ const api = {
 
   // ── Appointments ──
   appointments: {
-    list:     ()           => get('/appointments/'),
-    get:      (id)         => get(`/appointments/${id}/`),
-    create:   (data)       => post('/appointments/', data),
-    update:   (id, data)   => patch(`/appointments/${id}/`, data),
-    delete:   (id)         => del(`/appointments/${id}/`),
+    list:         ()           => get('/appointments/'),
+    get:          (id)         => get(`/appointments/${id}/`),
+    create:       (data)       => post('/appointments/', data),
+    update:       (id, data)   => patch(`/appointments/${id}/`, data),
+    delete:       (id)         => del(`/appointments/${id}/`),
+    updateStatus: (id, status) => patch(`/appointments/${id}/status/`, { appointment_status: status }),
+    cancel:       (id)         => post(`/appointments/${id}/cancel/`),
+    history:      (patientId)  => get(`/patients/${patientId}/appointments/history/`),
+  },
+
+  // ── Schedules ──
+  schedules: {
+    list:     ()           => get('/schedules/'),
+    mine:     ()           => get('/schedules/my-schedule/'),
+    create:   (data)       => post('/schedules/create/', data),
+    get:      (id)         => get(`/schedules/${id}/`),
+    update:   (id, data)   => put(`/schedules/${id}/update/`, data),
+    delete:   (id)         => del(`/schedules/${id}/delete/`),
   },
 
   // ── Services ──
@@ -147,9 +160,36 @@ const api = {
 
   // ── Documents / Files ──
   documents: {
-    list:     ()           => get('/documents/'),
+    list:     (patientId)  => get(`/patients/${patientId}/documents/`),
+    create:   (patientId, data) => post(`/patients/${patientId}/documents/create/`, data),
+    delete:   (patientId, docId) => del(`/patients/${patientId}/documents/${docId}/`),
+    toggleVisibility: (patientId, docId) => patch(`/patients/${patientId}/documents/${docId}/toggle-visibility/`),
+    guardianList: (patientId) => get(`/patients/${patientId}/guardian-documents/`),
     upload:   (formData)   => upload('/documents/upload/', formData),
     download: (id)         => `${BASE_URL}/documents/${id}/download/`,
+  },
+
+  // ── Vaccinations ──
+  vaccinations: {
+    list:     (patientId)  => get(`/patients/${patientId}/vaccinations/`),
+    create:   (patientId, data) => post(`/patients/${patientId}/vaccinations/create/`, data),
+    upcoming: (patientId)  => get(`/patients/${patientId}/vaccinations/upcoming/`),
+    get:      (patientId, recordId) => get(`/patients/${patientId}/vaccinations/${recordId}/`),
+    update:   (patientId, recordId, data) => patch(`/patients/${patientId}/vaccinations/${recordId}/update/`, data),
+    delete:   (patientId, recordId) => del(`/patients/${patientId}/vaccinations/${recordId}/delete/`),
+  },
+
+  // ── Guardian Children ──
+  guardian: {
+    myChildren:   ()       => get('/guardian/my-children/'),
+    guardianFile: (patientId) => get(`/patients/${patientId}/guardian-file/`),
+  },
+
+  // ── Medical File ──
+  medicalFile: {
+    get:      (patientId)  => get(`/patients/${patientId}/medical-file/`),
+    update:   (patientId, data) => put(`/patients/${patientId}/medical-file/update/`, data),
+    delete:   (patientId)  => del(`/patients/${patientId}/medical-file/delete/`),
   },
 
   // ── Notifications ──
